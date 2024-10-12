@@ -1,0 +1,19 @@
+.login-form-container{
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    box-shadow: 3px 3px 10px rgb(61, 60, 60);
+    width: 70%;
+}
+
+.email-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.input{
+    border-radius: 3px;
+    border: 1px solid rgb(199, 198, 198);
+    padding: 5px 10px;
+    outline: none;
+}
