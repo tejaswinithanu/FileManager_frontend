@@ -1,0 +1,17 @@
+.app-name{
+    font-family: "Times New Roman";
+    font-weight: 600;
+    text-shadow: 3px 3px 3px rgb(92, 91, 91);
+}
+
+.link-item{
+    text-decoration: none;
+}
+
+@media (max-width:768px){
+
+    .header{
+        padding-left: 10px !important;
+        padding-right: 10px !important; 
+    }
+}

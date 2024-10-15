@@ -37,4 +37,13 @@
   }
 }
 
+.drop-down-ele{
+  width: 200px;
+  border: none;
+  outline: none;
+  font-weight: 600;
+  padding: 5px 0px;
+}
+
+
 

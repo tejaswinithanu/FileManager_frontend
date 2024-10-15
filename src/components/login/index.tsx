@@ -14,9 +14,13 @@ export const Login=()=>{
             initialValues={{email:""}}
             validationSchema={validationSchema}
             onSubmit={async(values,{setSubmitting})=>{
-                const res=await axios.get('http://10.0.0.171:4000/auth/login')
-            console.log(res.data)
-            window.location.href=res.data
+                const tenantId = process.env.REACT_APP_TENANT_ID;    
+                const clientId = process.env.REACT_APP_CLIENT_ID;  
+                const url= process.env.REACT_APP_REDIRECT_URL
+            
+                const authUrl =`https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize?client_id=${clientId}&response_type=code&redirect_uri=http://localhost:3000/runway&response_mode=query&scope=openid profile email User.Read`    
+                // Redirect to the Microsoft login page
+                window.location.href = authUrl;
              }}
         >
             {({isSubmitting})=>(
@@ -26,7 +30,7 @@ export const Login=()=>{
                         <Field className="input mb-2" placeholder="Enter your email" type="email" id="email" name="email"/>
                         <ErrorMessage className='text-danger' component="div" name="email"/>
                     </div>
-                    <button className='btn btn-primary'>Login</button>
+                    <button type="submit" className='btn btn-primary'>Login</button>
                 </Form>
             )}
         </Formik>

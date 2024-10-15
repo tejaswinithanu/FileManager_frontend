@@ -8,12 +8,12 @@ const LoadingRunway=()=>{
            try {const params=new URLSearchParams(window.location.search);
             const code=params.get('code')
             console.log(code)
-            const res=await axios.post(`http://10.0.0.171:4000/auth/callback`,{code})
+            const res=await axios.post(`https://testsamplefnexp.azurewebsites.net/api/AuthFunctions?`,{code})
            
             console.log(res.data)
             localStorage.setItem("access_token",res.data.mail)
         
-            window.location.href='/home'
+            window.location.href='/'
             }
             catch(err){
                 console.log(err)

@@ -1,0 +1,36 @@
+.file-input {
+    display: none;
+}
+
+/* Optionally, style the file name text that shows after file selection */
+.file-input:valid{
+    background-color: #28a745;
+    content: "File selected";
+}
+
+.empty-view-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.empty-view-image{
+    width: 30%;
+}
+
+.empty-view-text{
+    font-size: 30px;
+    color: rgb(102, 101, 101);
+    font-weight: 100;
+}
+
+@media (max-width:768px){
+    .empty-view-text{
+        font-size: 20px;
+    }
+    .empty-view-image{
+        width: 40%;
+    }
+}

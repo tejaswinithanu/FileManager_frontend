@@ -1,0 +1,19 @@
+.search-bar-container{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 30px;
+    box-shadow: 3px 3px 10px rgb(161, 159, 159);
+}
+  
+
+.sort-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(231, 228, 228);
+    border-radius: 5px;
+}
+
+
+  

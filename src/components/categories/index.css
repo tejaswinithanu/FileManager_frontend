@@ -1,0 +1,35 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+
+
+.dropdown-menu {
+  
+}
+
+.dropdown-item {
+  padding: 5px 0;
+}
+
+.sub-dropdown {
+  padding-left: 20px;
+  padding-top: 5px;
+  margin-top: 5px;
+  background-color: #f9f9f9;
+  border-left: 2px solid #ccc;
+}
+
+.sub-dropdown-item {
+  display: block;
+  padding: 5px 0;
+}
+
+.toggle-sub-dropdown {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  margin-left: 10px;
+}
