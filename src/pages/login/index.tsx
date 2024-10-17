@@ -1,8 +1,16 @@
+import { Navigate } from "react-router-dom";
 import { Login } from "../../components/login"
 
 import './index.css'
 
 const LoginPage=()=>{
+
+    const token=localStorage.getItem('token');
+
+    if(token){
+        return <Navigate to="/"/>
+    }
+
     return(
         <div className="login-page-container">
             <div className="login-image-container">

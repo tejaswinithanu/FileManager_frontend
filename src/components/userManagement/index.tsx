@@ -1,13 +1,11 @@
-import { AddUser } from "../addUser"
-import { CategoriesDropdown} from "../categories"
+import { AddUser } from "../inviteMember"
+import { Users } from "../users"
 
 export const UserManagement=()=>{
     return(
         <>
-
            <AddUser/>
-           <CategoriesDropdown/> 
-            
+           <Users/>    
         </>
     )
 }

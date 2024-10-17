@@ -19,8 +19,6 @@ export const FileSearcherBar=()=>{
             <Search/>
 
             <div className="d-flex">
-            <button className="btn btn-primary me-3">New Folder</button>
-           
            <Upload/>
             </div>
 

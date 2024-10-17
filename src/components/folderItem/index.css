@@ -1,0 +1,56 @@
+.folder-item {
+    list-style: none; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 200px; 
+    height: 200px; 
+    padding: 10px; 
+    border-radius: 8px; 
+    background-image: linear-gradient(to bottom,rgba(125, 231, 250, 0.623),rgb(228, 187, 6)); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    transition: transform 0.3s, box-shadow 0.3s; 
+    cursor: pointer; 
+    margin: 10px;
+}
+
+.folder-img {
+    width: 80%; 
+    height: auto; 
+    transition: transform 0.3s; 
+}
+
+/* Add a slight animation on image hover */
+.folder-item:hover .folder-img {
+    transform: rotate(5deg); /* Slight rotation on hover */
+}
+
+.folder-item p {
+    margin-top: 5px; 
+    color: #333; 
+    font-weight: bold;
+    text-align: center;
+    transition: color 0.3s;
+}
+
+/* Change text color on hover */
+.folder-item:hover p {
+    color: #fff; /* Change text color on hover */
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.folder-item:hover {
+    animation: bounce 0.6s; /* Apply the bounce animation */
+}

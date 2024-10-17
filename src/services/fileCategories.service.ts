@@ -6,41 +6,46 @@ export class FileCategories{
         this.fileCategories=[
             {
                 id:uuidv4(),
-                categoryName:'Human Resources'
+                categoryName:'Human Resources',
+                value:'human_resources'
             },
             {
                 id:uuidv4(),
-                categoryName:'Software development'
+                categoryName:'Software development',
+                value:'software_development'
             },
             {
                 id:uuidv4(),
-                categoryName:'Financial files'
+                categoryName:'Financial files',
+                value:'financial_files'
             },
             {
                 id:uuidv4(),
-                categoryName:'Legal and Compliance'
+                categoryName:'Legal and Compliance',
+                value:'legal_and_compliance'
             },
             {
                 id:uuidv4(),
-                categoryName:"Project Files"
+                categoryName:"Project Files",
+                value:'project_files'
             }
         ]
         this.actions=[
             {
                 id:uuidv4(),
-                action:"Upload"
+                action:"upload"
             },
             {
                 id:uuidv4(),
-                action:"View"
+                action:"view"
             },
             {
                 id:uuidv4(),
-                action:"Update"
+                action:"update"
             },
             {
                 id:uuidv4(),
-                action:"Delete"
+                action:"delete"
             }
         ]
     }
