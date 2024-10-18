@@ -1,11 +1,13 @@
 import { FaFolderOpen } from "react-icons/fa6";
 
 import './index.css'
-import { Link, useNavigate} from "react-router-dom";
+import { Link} from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export const Header=()=>{
 
-    const navigate=useNavigate();
+    const memberRole=useSelector((state:any)=>state.userStore.userRole)
 
     const handleLogout=()=>{
         localStorage.clear();
@@ -16,6 +18,8 @@ export const Header=()=>{
           )}`;
         window.location.href = azureLogoutUrl;
     }
+
+    const memberName=localStorage.getItem('username')
 
     return(
         
@@ -33,22 +37,26 @@ export const Header=()=>{
                 </li>
                 <li className="nav-item link-item">
                 <Link className="link-item nav-link" to="/files">
-                {/* <a className="nav-link" href="#scrollspyHeading2"> */}
+                
                     All Files
                   
                 </Link>
                 </li>
                 <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#." role="button" aria-expanded="false">Admin</a>
+                <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#." role="button" aria-expanded="false">{memberName}</a>
                 <ul className="dropdown-menu">
-                    <li><a className="dropdown-item ps-3" href="#scrollspyHeading3">Folders</a></li>
-                    <li><a className="dropdown-item ps-3" href="#scrollspyHeading4">All Files</a></li>
+                    <li><Link className="dropdown-item ps-3" to="/folders">Folders</Link></li>
                     <li><hr className="dropdown-divider"/></li>
-                    <li>
-                    <Link className="link-item dropdown-item ps-3" to="/user-management">
-                    {/* <a className="dropdown-item" href="/"> */}
-                    User Management
-                    </Link></li>
+                    
+                    {
+                        memberRole==="admin" &&
+                        <li>
+                        <Link className="link-item dropdown-item ps-3" to="/user-management">
+                            User Management
+                        </Link>
+                        </li>
+                    }
+                    
                     <button onClick={handleLogout} className="btn btn-outline">Logout</button>
                 </ul>
                 </li>

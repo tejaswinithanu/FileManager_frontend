@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import './index.css'
-import { Actions } from '../actions';
+
 import { Category } from '../category';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCategories } from '../../store/userStore';
 
-interface OptionType {
-  label: string;
-  value: string;
-  subOptions?: OptionType[]; // Optional nested sub-options
-}
 
 export const CategoriesDropdown: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
@@ -18,15 +13,17 @@ export const CategoriesDropdown: React.FC = () => {
 
   const dispatch=useDispatch();
 
+  //add the selected categories on toggle of category click
   useEffect(() => {
     if (selectedOptions.length > 0) {
       dispatch(addCategories(selectedOptions));
     }
   }, [selectedOptions, dispatch]);
 
+  //get all the available categories to render the categories dropdown
   const categories=useSelector((state:any)=>state.fileCategoryStore.fileCategories)
 
-  
+  //update the selectedCategories based on which category is clicked
   const handleCategoryClick = (optionValue: string) => {
     setSelectedOptions((prevSelected) =>
       prevSelected.includes(optionValue)
@@ -58,15 +55,6 @@ export const CategoriesDropdown: React.FC = () => {
         </div>
         )}
       </div>
-
-      {/* <div>
-        <h4>Selected Options:</h4>
-        <ul>
-          {selectedOptions.map((option, index) => (
-            <li key={index}>{option}</li>
-          ))}
-        </ul>
-      </div> */}
     </div>
   );
 };

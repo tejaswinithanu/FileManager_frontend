@@ -10,6 +10,17 @@ export const fetchFiles=createAsyncThunk('files/fetchFiles',async()=>{
     }
 })
 
+export const fetchFilesByCategory:any=createAsyncThunk('files/fileByCategory',async(category)=>{
+    console.log(category)
+    try{
+        const response=await axios.get(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?category=${category}`)
+        console.log(response.data)
+        return response.data
+    }catch(err:any){
+        throw new Error(err.message)
+    }
+})
+
 const fileSlice=createSlice({
     name:'fileStore',
     initialState:{
@@ -39,11 +50,22 @@ const fileSlice=createSlice({
             state.loading=true;
           })
         .addCase(fetchFiles.fulfilled,(state:any,action)=>{
-            console.log(action.payload)
+            //console.log(action.payload)
             state.loading=false;
             state.files=action.payload
         })
         .addCase(fetchFiles.rejected,(state:any,action)=>{
+            state.loading=false;
+            state.error=action.payload
+        })
+        .addCase(fetchFilesByCategory.pending,(state:any)=>{
+            state.loading=true
+        })
+        .addCase(fetchFilesByCategory.fulfilled,(state:any,action)=>{
+            state.loading=false
+            state.files=action.payload
+        })
+        .addCase(fetchFilesByCategory.rejected,(state:any,action)=>{
             state.loading=false;
             state.error=action.payload
         })

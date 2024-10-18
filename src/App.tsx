@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<ProtectedRoute><Home/></ProtectedRoute>}>
             <Route index element={<Folders/>}/>
             <Route path="/folders" element={<Folders/>}/>
-            <Route path="/files" element={<Files/>}/>
+            <Route path="/files/:category" element={<Files/>}/>
             <Route path="/user-management" element={<UserManagement/>}/>
           </Route>
               

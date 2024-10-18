@@ -5,6 +5,7 @@ export const Category=({categoryDetails, handleCategoryClick}:any)=>{
     const [isCategoryAssigned, setCategoryAccess]=useState(false)
     const {categoryName}=categoryDetails
 
+    //update the category access on click of category
     const onToggleCategory=()=>{
         setCategoryAccess(!isCategoryAssigned)
         handleCategoryClick(categoryName)

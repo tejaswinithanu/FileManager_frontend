@@ -6,23 +6,6 @@ const fileCategories=new FileCategories()
 
 export const inviteUser:any=createAsyncThunk('users/fetchUser', async (userDetails) => {
     console.log('userDetails inside thunk',userDetails)
-    // const response = await fetch('https://testsamplefnexp.azurewebsites.net/api/userfunctions', {
-    //     method: 'POST', // Specify the request method
-    //     headers: {
-    //         'Content-Type': 'application/json', // Specify the content type
-    //     },
-    //     body: JSON.stringify(userDetails)// Stringify the request body
-    // });
-    // console.log('api called')
-    // if (!response.ok) {
-    //     throw new Error(`HTTP error! Status: ${response.status}`);
-    // }
-    
-    // const data = await response.json();
-    // console.log('data',data);
-    // return data
-
-
     const response=await axios.post('https://testsamplefnexp.azurewebsites.net/api/userfunctions',userDetails)
 
     console.log('api called')
@@ -34,8 +17,22 @@ export const inviteUser:any=createAsyncThunk('users/fetchUser', async (userDetai
 export const fetchUsers=createAsyncThunk('users/fetchUsers',async ()=>{
     try{
       const response=await axios.get('https://testsamplefnexp.azurewebsites.net/api/userfunctions');
-      const data=response.data
-      return data
+      
+      if(response.status===200){
+        const userRole=localStorage.getItem('role');
+        const usersList=response.data
+        //console.log('userList',usersList)
+        if(!userRole){
+          const userMail=localStorage.getItem('mail');
+          const loggedInUser=usersList.find((user:any)=>user.email===userMail)
+          
+          localStorage.setItem('role',loggedInUser.role)
+          return {usersList,userRole:loggedInUser.role}
+        }
+        
+        return {usersList,userRole}
+      }
+      
     }catch(err:any){
       throw new Error(err.message)
     }
@@ -47,7 +44,8 @@ const userStore=createSlice({
         users:[],
         selectedCategories:fileCategories.getAllFileCategories().map((eachCategory:any)=>eachCategory.value),
         loading:"",
-        error:""
+        error:"",
+        userRole:""
     },
     reducers:{
         addCategories:(state:any,action)=>{
@@ -60,10 +58,13 @@ const userStore=createSlice({
           .addCase(fetchUsers.pending,(state:any)=>{
             state.loading=true;
           })
-          .addCase(fetchUsers.fulfilled,(state:any,action)=>{
-            console.log(action.payload)
+          .addCase(fetchUsers.fulfilled,(state:any,action:any)=>{
+            const {usersList,userRole}=action.payload
+            console.log(usersList)
+            console.log('user-role',userRole)
             state.loading=false;
-            state.users=action.payload
+            state.users=usersList
+            state.userRole=userRole
           })
           .addCase(fetchUsers.rejected,(state:any,action)=>{
             state.loading=false;

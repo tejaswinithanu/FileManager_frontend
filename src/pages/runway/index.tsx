@@ -13,9 +13,10 @@ const LoadingRunway=()=>{
             console.log(code)
             const res=await axios.post(`https://testsamplefnexp.azurewebsites.net/api/AuthFunctions?code=${code}`)
            
-            console.log(res.data.userDetails.mail)
+            console.log(res.data)
             localStorage.setItem("token",res.data.token)
             localStorage.setItem('mail',res.data.userDetails.mail)
+            localStorage.setItem('username',res.data.userDetails.displayName)
         
             window.location.href='/'
             }
