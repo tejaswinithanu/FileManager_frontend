@@ -24,7 +24,6 @@ export const Upload=()=>{
                     body:formData
                 }
             )
-            console.log(response)
 
             if(response.ok){
 

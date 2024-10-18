@@ -39,13 +39,13 @@ const fileSlice=createSlice({
             state.loading=true;
           })
         .addCase(fetchFiles.fulfilled,(state:any,action)=>{
-        console.log(action.payload)
-        state.loading=false;
-        //state.files=action.payload
+            console.log(action.payload)
+            state.loading=false;
+            state.files=action.payload
         })
         .addCase(fetchFiles.rejected,(state:any,action)=>{
-        state.loading=false;
-        state.error=action.payload
+            state.loading=false;
+            state.error=action.payload
         })
     }
 })

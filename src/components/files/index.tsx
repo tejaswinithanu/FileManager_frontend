@@ -18,8 +18,7 @@ Modal.setAppElement('#root')
 export const Files=()=>{
 
     const [isOpen,setIsOpen]=useState(false); 
-    const [isMenuVisible, setMenuVisible] = useState(false);
-    const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+    
     const [isDeletePopupOpen,setDeletePopup]=useState(false);
     const files=useSelector((state:any)=>state.fileStore.files)
     const isLoading=useSelector((state:any)=>state.fileStore.loading)
@@ -35,10 +34,10 @@ export const Files=()=>{
 
     const dispatch=useDispatch()
 
-    // useEffect(()=>{
-    //     dispatch<any>(fetchFiles())
-    //     console.log(typeof files)
-    // },[files,dispatch])
+    useEffect(()=>{
+        dispatch<any>(fetchFiles())
+        console.log(typeof files)
+    },[])
 
     
     // const createFileUrl = (file:any) => {
@@ -47,6 +46,7 @@ export const Files=()=>{
 
     const deleteFile=async (fileName:any)=>{
         const userMail=localStorage.getItem('mail')
+        console.log('userMail',userMail)
         try{
             const response=await axios.delete(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?blobName=${fileName}&userMail=${userMail}`)
             //console.log(response.data)
@@ -56,6 +56,7 @@ export const Files=()=>{
 
                 setTimeout(() => setDeletePopup(false), 2000);
                 
+                
             }
         }catch(err){
 
@@ -64,18 +65,6 @@ export const Files=()=>{
         
     }
 
-    const handleRightClick=(event:any)=>{
-        event.preventDefault()
-        setMenuPosition({
-            x: event.pageX,
-            y: event.pageY
-        });
-        setMenuVisible(true)
-    }
-
-    const handleClickOutside = () => {
-        setMenuVisible(false); // Hide the custom menu
-    };
 
     return(
         <>
@@ -87,18 +76,17 @@ export const Files=()=>{
                 (
                     <>
                     <FileSearcherBar/>
-                    
+                    {isLoading && <Loading/>}
                     <ul className="row ps-0 m-5">
 
                     {files.map((eachFile:any)=>{
                     const extension=eachFile.name.split(".").pop();
                     const iconStyle = defaultStyles[extension as keyof typeof defaultStyles];
                         return(
-                        <li onClick={handleClickOutside} onContextMenu={handleRightClick} key={eachFile.id} className="col-sm-6 col-md-4 col-xl-2 file-list-item mb-3">
+                        <li key={eachFile._id} className="col-sm-6 col-md-4 col-xl-2 file-list-item mb-3">
                             <a 
                             className="file-item"
                             href={eachFile.url}
-                            key={eachFile.name}
                             rel="noopener noreferrer"
                             target="_blank"
                             >
@@ -123,16 +111,7 @@ export const Files=()=>{
                                     </div>
                                 </Modal>
                             </div>
-                            {isMenuVisible && (
-                                <ul
-                                    className="context-menu"
-                                    style={{ top: `${menuPosition.y}px`, left: `${menuPosition.x}px` }}
-                                >
-                                    <li onClick={() => { alert("Option 1 clicked") }}>Option 1</li>
-                                    <li onClick={() => { alert("Option 2 clicked") }}>Option 2</li>
-                                    <li onClick={() => { alert("Delete File") }}>Delete File</li>
-                                </ul>
-                            )}
+                            
                             </li>
                         )
                     })}
