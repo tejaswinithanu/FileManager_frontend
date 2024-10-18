@@ -8,9 +8,13 @@ export const Header=()=>{
     const navigate=useNavigate();
 
     const handleLogout=()=>{
-        localStorage.removeItem('token');
-        localStorage.removeItem('mail');
-        navigate('/login')
+        localStorage.clear();
+        const azureLogoutUrl = `https://login.microsoftonline.com/${
+            process.env.REACT_APP_TENANT_ID
+          }/oauth2/v2.0/logout?post_logout_redirect_uri=${encodeURIComponent(
+            "http://localhost:3000/login" // Set the login page after logout
+          )}`;
+        window.location.href = azureLogoutUrl;
     }
 
     return(

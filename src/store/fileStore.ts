@@ -1,10 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+export const fetchFiles=createAsyncThunk('files/fetchFiles',async()=>{
+    try{
+        const response=await axios.get('https://testsamplefnexp.azurewebsites.net/api/filefunctions')
+        return response.data
+    }catch(err:any){
+        throw new Error(err.message)
+    }
+})
 
 const fileSlice=createSlice({
     name:'fileStore',
     initialState:{
         files:[],
-        filterValue:""
+        filterValue:"",
+        loading:true,
+        error:""
     },
     reducers:{
         addFile:(state:any,action)=>{
@@ -20,6 +32,21 @@ const fileSlice=createSlice({
             })
             state.files=filteredFiles
         }
+    },
+    extraReducers:(builder)=>{
+        builder
+        .addCase(fetchFiles.pending,(state:any)=>{
+            state.loading=true;
+          })
+        .addCase(fetchFiles.fulfilled,(state:any,action)=>{
+        console.log(action.payload)
+        state.loading=false;
+        //state.files=action.payload
+        })
+        .addCase(fetchFiles.rejected,(state:any,action)=>{
+        state.loading=false;
+        state.error=action.payload
+        })
     }
 })
 

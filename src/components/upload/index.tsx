@@ -1,14 +1,10 @@
 import {v4 as uuidv4} from 'uuid';
 import { useDispatch } from "react-redux"
 import { addFile } from "../../store/fileStore"
-import { useState } from 'react';
-import axios from 'axios';
-
-
 
 export const Upload=()=>{
 
-    const [selectedFile,uploadFile]=useState({});
+    //const [selectedFile,uploadFile]=useState({});
 
     const dispatch=useDispatch()
 
@@ -19,14 +15,16 @@ export const Upload=()=>{
         const formData:any = new FormData();
         formData.append('file', file);
         console.log(formData.get('file').name);
+        const userMail=localStorage.getItem('mail')
 
         try{
-            const response=await fetch('https://testsamplefnexp.azurewebsites.net/api/filefunctions',
+            const response=await fetch(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?userMail=${userMail}`,
                 {
                     method:'POST',
                     body:formData
                 }
             )
+            console.log(response)
 
             if(response.ok){
 
@@ -37,8 +35,8 @@ export const Upload=()=>{
                 console.log('Error in response')
             }
  
-        }catch(error){
-            console.error("Error uploading file:", error);
+        }catch(error:any){
+            console.error("Error uploading file:", error.message);
         }
 
     }

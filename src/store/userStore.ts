@@ -27,14 +27,13 @@ export const inviteUser:any=createAsyncThunk('users/fetchUser', async (userDetai
 
     console.log('api called')
     console.log('response',response.data)
-    return response.data
+    return JSON.parse(response.data)
     
   });
 
 export const fetchUsers=createAsyncThunk('users/fetchUsers',async ()=>{
     try{
       const response=await axios.get('https://testsamplefnexp.azurewebsites.net/api/userfunctions');
-      //console.log('users',response.data)
       const data=response.data
       return data
     }catch(err:any){
