@@ -14,8 +14,9 @@ export const fetchFilesByCategory:any=createAsyncThunk('files/fileByCategory',as
     console.log(category)
     try{
         const response=await axios.get(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?category=${category}`)
-        console.log(response.data)
-        return response.data
+        if(response.status===200){
+            return response.data
+        }
     }catch(err:any){
         throw new Error(err.message)
     }
@@ -26,7 +27,7 @@ const fileSlice=createSlice({
     initialState:{
         files:[],
         filterValue:"",
-        loading:true,
+        loading:"",
         error:""
     },
     reducers:{

@@ -4,7 +4,7 @@ import axios from "axios";
 
 const fileCategories=new FileCategories()
 
-export const inviteUser:any=createAsyncThunk('users/fetchUser', async (userDetails) => {
+export const inviteUser:any=createAsyncThunk('users/inviteUser', async (userDetails) => {
     console.log('userDetails inside thunk',userDetails)
     const response=await axios.post('https://testsamplefnexp.azurewebsites.net/api/userfunctions',userDetails)
 
@@ -25,9 +25,9 @@ export const fetchUsers=createAsyncThunk('users/fetchUsers',async ()=>{
         if(!userRole){
           const userMail=localStorage.getItem('mail');
           const loggedInUser=usersList.find((user:any)=>user.email===userMail)
-          
+          console.log('categories',loggedInUser.categories)
           localStorage.setItem('role',loggedInUser.role)
-          return {usersList,userRole:loggedInUser.role}
+          return {usersList,userRole:loggedInUser.role,categories:loggedInUser.categories}
         }
         
         return {usersList,userRole}
@@ -45,7 +45,8 @@ const userStore=createSlice({
         selectedCategories:fileCategories.getAllFileCategories().map((eachCategory:any)=>eachCategory.value),
         loading:"",
         error:"",
-        userRole:""
+        userRole:"",
+        assignedCategories:[]
     },
     reducers:{
         addCategories:(state:any,action)=>{
@@ -59,12 +60,15 @@ const userStore=createSlice({
             state.loading=true;
           })
           .addCase(fetchUsers.fulfilled,(state:any,action:any)=>{
-            const {usersList,userRole}=action.payload
+            const {usersList,userRole,categories}=action.payload
             console.log(usersList)
             console.log('user-role',userRole)
             state.loading=false;
             state.users=usersList
             state.userRole=userRole
+            if(categories){
+              state.assignedCategories=categories
+            }
           })
           .addCase(fetchUsers.rejected,(state:any,action)=>{
             state.loading=false;

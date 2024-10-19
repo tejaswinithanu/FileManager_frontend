@@ -2,7 +2,6 @@ import { FaFolderOpen } from "react-icons/fa6";
 
 import './index.css'
 import { Link} from "react-router-dom";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 export const Header=()=>{
@@ -24,22 +23,15 @@ export const Header=()=>{
     return(
         
         <nav id="navbar-example2" className="navbar navbar-dark bg-warning px-5 header">
-            <a className="navbar-brand app-name" href="/">
+            <Link className="navbar-brand app-name" to="/">
             <FaFolderOpen className="me-2"/>
-            Tech Solutions</a>
+            Tech Solutions</Link>
             <ul className="nav nav-pills">
                 <li className="nav-item">
                 <Link className="link-item nav-link" to="/folders">
                 {/* <a className="nav-link" href="/"> */}
                     Folders
                 
-                </Link>
-                </li>
-                <li className="nav-item link-item">
-                <Link className="link-item nav-link" to="/files">
-                
-                    All Files
-                  
                 </Link>
                 </li>
                 <li className="nav-item dropdown">

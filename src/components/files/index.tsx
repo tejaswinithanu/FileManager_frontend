@@ -25,6 +25,14 @@ export const Files=()=>{
     const [isDeletePopupOpen,setDeletePopup]=useState(false);
     const files=useSelector((state:any)=>state.fileStore.files)
     const isLoading=useSelector((state:any)=>state.fileStore.loading)
+    const activeCategory=useSelector((state:any)=>state.fileCategoryStore)
+
+    const searchValue=useSelector((state:any)=>state.fileStore.filterValue)
+
+    const filteredFiles=files.filter((file:any)=>{
+        const lowercaseName=file.name.toLowerCase()
+        return lowercaseName.includes(searchValue.toLowerCase())
+    })
 
     const {category}=useParams()
 
@@ -60,9 +68,7 @@ export const Files=()=>{
             if(response.status===200){
                 closeModal()
                 setDeletePopup(true)
-
-                setTimeout(() => setDeletePopup(false), 2000);
-                dispatch<any>(fetchFiles())
+                dispatch<any>(fetchFilesByCategory(category))
                 
             }
         }catch(err:any){
@@ -86,7 +92,7 @@ export const Files=()=>{
                     {isLoading && <Loading/>}
                     <ul className="row ps-0 m-5">
 
-                    {files.map((eachFile:any)=>{
+                    {filteredFiles.map((eachFile:any)=>{
                         const extension=eachFile.name.split(".").pop();
                         const iconStyle = defaultStyles[extension as keyof typeof defaultStyles];
                         
@@ -111,7 +117,7 @@ export const Files=()=>{
                                 <Modal isOpen={isOpen} onRequestClose={closeModal} contentLabel="Example Modal" className="modal-content d-flex flex-column align-center" overlayClassName="modal-overlay">
                                     <h6 className="mb-4">Are you sure?</h6>
                                     <div className="d-flex justify-content-center">
-                                    <button onClick={deleteFile} className="btn btn-outline-danger px-5 me-2">Delete</button>    
+                                    <button onClick={()=>deleteFile()} className="btn btn-outline-danger px-5 me-2">Delete</button>    
 
                                     <button onClick={closeModal} className='btn btn-danger px-5 ms-2'>
                                     Close
@@ -125,9 +131,9 @@ export const Files=()=>{
                     })}
                     </ul>
                     {isDeletePopupOpen && (
-                                    <div className="popup-container">
-                                    <div className="popup-content">File deleted successfully!</div>
-                                    </div>
+                            <Modal isOpen={isOpen} onRequestClose={()=>setDeletePopup(false)} contentLabel="Example Modal" className="modal-content d-flex flex-column align-center" overlayClassName="modal-overlay">
+                                <div>File deleted Successfully</div>
+                            </Modal>        
                     )}
                     </>
                 )

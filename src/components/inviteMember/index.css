@@ -14,3 +14,7 @@
 .add-user-bar{
     padding: 10px 30px;
 }
+
+.modal-content{
+    background-color: rgb(201, 210, 218);
+}

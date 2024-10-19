@@ -43,7 +43,7 @@ export const CategoriesDropdown: React.FC = () => {
   return (
     <div className='form-control'>
       <div className="dropdown m-0">
-        <button type="button" onClick={toggleDropdown} className="dropdown-toggle btn btn-warning">
+        <button type="button" onClick={toggleDropdown} className="dropdown-toggle btn">
           Assign Categories
         </button> 
 
