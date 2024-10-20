@@ -13,7 +13,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 80vh;
+    height: 91.7vh;
+    background-color: #d7e3fc;
 }
 
 .empty-view-image{
@@ -22,8 +23,9 @@
 
 .empty-view-text{
     font-size: 30px;
-    color: rgb(102, 101, 101);
+    color: #183e4b;
     font-weight: 100;
+    font-weight: 600;
 }
 
 @media (max-width:768px){

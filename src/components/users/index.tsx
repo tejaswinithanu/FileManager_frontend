@@ -23,8 +23,8 @@ export const Users = () => {
             <div className="user-table-container mt-4">
                 <h4 className="text-center">Users List</h4>
                 <table className="table table-hover table-striped table-responsive">
-                    <thead className="thead-dark">
-                        <tr>
+                    <thead className="thead">
+                        <tr className="tr">
                             <th>Email</th>
                             <th>Role (Hover to see categories)</th>
                         </tr>

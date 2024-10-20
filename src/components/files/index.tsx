@@ -32,6 +32,14 @@ export const Files=()=>{
         return lowercaseName.includes(searchValue.toLowerCase())
     })
 
+    const searchValue=useSelector((state:any)=>state.fileStore.filterValue)
+
+    const filteredFiles=files.filter((file:any)=>{
+        const lowercaseName=file.name.toLowerCase()
+        return lowercaseName.includes(searchValue.toLowerCase())
+    })
+ 
+
     const {category}=useParams()
 
     const openModal = (fileName:any) => {
@@ -80,12 +88,18 @@ export const Files=()=>{
     return(
         <div>
             {
+
+   
+
                 files.length!==0 &&
-                // <EmptyView/>:
+              
+
                 (
-                    <>
+                    <div className="files-container">
                     <FileSearcherBar/>
-                    <ul className="row ps-0 m-5">
+
+                    
+                    <ul className="row">
 
                     {filteredFiles.map((eachFile:any)=>{
                         const extension=eachFile.name.split(".").pop();
@@ -130,7 +144,7 @@ export const Files=()=>{
                                 <div>File deleted Successfully</div>
                             </Modal>        
                     )}
-                    </>
+                    </div>
                 )
             }
            

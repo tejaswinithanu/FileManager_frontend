@@ -18,8 +18,7 @@ export const Login = () => {
         if (!email) {
             toast.error('*Email is required', {
                 position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: true,
+                autoClose: 5000,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
@@ -31,10 +30,6 @@ export const Login = () => {
             toast.error('*Invalid email address', {
                 position: "top-right",
                 autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
                 theme:"dark"
             });
             return false;
@@ -43,10 +38,6 @@ export const Login = () => {
             toast.error('*Email must end with g7cr.com', {
                 position: "top-right",
                 autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
                 theme:"dark"
             });
             return false;
@@ -70,7 +61,6 @@ export const Login = () => {
         toast.success('Redirecting to Microsoft Login...', {
             position: "top-right",
             autoClose: 3000,
-            hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
@@ -97,11 +87,12 @@ export const Login = () => {
                 draggable={true}
             />
  
-            <form className='login-form-container rounded' onSubmit={handleSubmit}>
+            <form className='login-form-container' onSubmit={handleSubmit}>
+                <h1 className='welcome'>Hey, Welcome to File Manger!🚀</h1>
                 <div className='email-container mb-3'>
-                    <label className='mb-2' htmlFor='email'>Email</label>
+                    <label className='label' htmlFor='email'>Email</label>
                     <input
-                        className="input mb-2"
+                        className="input"
                         placeholder="Enter your email"
                         type="email"
                         id="email"
@@ -109,14 +100,15 @@ export const Login = () => {
                         value={email}
                         onChange={handleEmailChange}
                     />
-                </div>
-                <button
+                    <button
                     type="submit"
-                    className='btn btn-primary'
+                    className='login-btn'
                     disabled={isSubmitting} // Disable button if the form is submitting
                 >
-                    {isSubmitting ? 'Logging in...' : 'Login'}
+                    Login with <img className='microsoft-icon' src='https://res.cloudinary.com/dywrzseia/image/upload/v1729364368/microsoft_732221_2_qzxstc.png'/>
                 </button>
+                </div>
+                
             </form>
         </>
     );

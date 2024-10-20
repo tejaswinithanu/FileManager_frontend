@@ -4,21 +4,23 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 200px; 
-    height: 200px; 
+    width: 300px; 
+    height: 300px; 
     padding: 10px; 
     border-radius: 8px; 
-    background-image: linear-gradient(to bottom,rgba(125, 231, 250, 0.623),rgb(228, 187, 6)); 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    /* background-image: linear-gradient(to bottom,rgba(125, 231, 250, 0.623),rgb(228, 187, 6));  */
+    background-color: #e5c185;
+    box-shadow: 2px 4px 13px rgba(0, 0, 0, 0.2); 
     transition: transform 0.3s, box-shadow 0.3s; 
     cursor: pointer; 
-    margin: 10px;
+    margin: 20px;
 }
 
 .folder-img {
     width: 80%; 
     height: auto; 
     transition: transform 0.3s; 
+    position: relative;
 }
 
 /* Add a slight animation on image hover */
@@ -53,4 +55,8 @@
 
 .folder-item:hover {
     animation: bounce 0.6s; /* Apply the bounce animation */
+}
+.category-name{
+    color: #00202e;
+    font-size: 18px;
 }

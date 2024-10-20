@@ -2,10 +2,13 @@
 .user-table-container {
     width: 80%;
     margin: 0 auto;
-    background-color: #cee0f1;
+   
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #b6d4c5;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    
   }
  
   h4 {
@@ -14,19 +17,27 @@
     color: #343a40;
   }
  
-  table {
+  .table {
     width: 100%;
     border-collapse: collapse;
+    border-radius: 8px!;
   }
  
-  thead {
-    background-color: #343a40;
-    color: #fff;
+  .thead {
+    background-color: #2b6777!;
+    
+  }
+  thead th{
+    color: #292020;
+    padding: 10px;
+    text-align: left;
+    font-size: 16px;
+    background-color: #2b6777!;
   }
  
   th, td {
     padding: 12px;
-    text-align: center;
+    text-align: left;
   }
  
   .role-cell {
@@ -63,9 +74,17 @@
   .role-cell:hover .categories-tooltip {
     display: block;
   }
+  
+  tbody tr:nth-child(even) {
+    background-color: #425a69;
+}
+
+.tr{
+  background-color: #425a69;
+}
  
   tbody tr:hover {
-    background-color: #f1f1f1;
+    background-color: #00929c;
   }
  
   table thead th {

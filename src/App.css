@@ -65,3 +65,9 @@ select.form-control {
 
 
 
+*{
+  font-family: 'Poppins', sans-serif;
+}
+body::-webkit-scrollbar{
+  display: none;
+}

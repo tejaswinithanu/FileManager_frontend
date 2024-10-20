@@ -8,7 +8,7 @@ export const EmptyView=()=>{
     return(
         <div className='empty-view-container'>
             <img className='empty-view-image' alt="no files" src="https://res.cloudinary.com/dqqijdyjr/image/upload/v1728736212/9169253-removebg-preview_nrsuru.png"/>
-            <p className='empty-view-text'>No files are added yet</p>
+            <p className='empty-view-text'>Oops😕, No files are added yet!</p>
             <Upload/>
         </div>
     )

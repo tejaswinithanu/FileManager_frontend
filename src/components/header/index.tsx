@@ -22,22 +22,26 @@ export const Header=()=>{
 
     return(
         
-        <nav id="navbar-example2" className="navbar navbar-dark bg-warning px-5 header">
+
+        <nav id="navbar-example2" className="navbar navbar-dark px-5 header">
             <Link className="navbar-brand app-name" to="/">
             <FaFolderOpen className="me-2"/>
-            Tech Solutions</Link>
+            File Manager.</Link>
+
             <ul className="nav nav-pills">
                 <li className="nav-item">
                 <Link className="link-item nav-link" to="/folders">
                 {/* <a className="nav-link" href="/"> */}
-                    Folders
+                    Folders📂
                 
                 </Link>
                 </li>
+
                 <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#." role="button" aria-expanded="false">
                     {username}
                 </a>
+
                 <ul className="dropdown-menu">
                     <li><Link className="dropdown-item ps-3" to="/folders">Folders</Link></li>
                     <li><hr className="dropdown-divider"/></li>
@@ -45,7 +49,7 @@ export const Header=()=>{
                     {
                         role==="admin" &&
                         <li>
-                        <Link className="link-item dropdown-item ps-3" to="/user-management">
+                        <Link className="drop-item dropdown-item ps-3" to="/user-management">
                             User Management
                         </Link>
                         </li>
@@ -53,6 +57,9 @@ export const Header=()=>{
                     
                     <button onClick={handleLogout} className="btn btn-outline">Logout</button>
                 </ul>
+                </li>
+                <li>
+                    <img className="user-logo" src="https://res.cloudinary.com/dywrzseia/image/upload/v1729363391/success_15374780_ydhodm.gif"/>
                 </li>
             </ul>
             </nav>

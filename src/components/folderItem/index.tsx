@@ -13,8 +13,8 @@ export const FolderItem=({category}:any)=>{
 
     return(
         <li onDoubleClick={handleCategoryClick} className='folder-item'>
-            <img className='folder-img' alt="file-manager" src="https://res.cloudinary.com/dqqijdyjr/image/upload/v1729067882/folder-img-removebg-preview_fngpnq.png"/>
-            <p>{categoryName}</p>
+            <img className='folder-img' alt="file-manager" src="https://res.cloudinary.com/dywrzseia/image/upload/v1729358009/1-H8Mj3R6OSci9gAAAABJRU5ErkJggg_jifz42.png"/>
+            <p className='category-name'>{categoryName}</p>
         </li>
     )
 }
