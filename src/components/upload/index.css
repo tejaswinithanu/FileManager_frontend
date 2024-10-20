@@ -1,3 +1,11 @@
 .file-input {
     display: none;
 }
+.empty-upload-btn{
+    background: linear-gradient(135deg, #12063b, #09555c);
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    height: 45px;
+    color: aliceblue;
+}

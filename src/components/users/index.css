@@ -1,94 +1,129 @@
 /* Styling for the User Data Table */
 .user-table-container {
-    width: 80%;
-    margin: 0 auto;
-   
-    padding: 20px;
-    background-color: #b6d4c5;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    
-  }
- 
-  h4 {
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #343a40;
-  }
- 
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-    border-radius: 8px!;
-  }
- 
-  .thead {
-    background-color: #2b6777!;
-    
-  }
-  thead th{
-    color: #292020;
-    padding: 10px;
-    text-align: left;
-    font-size: 16px;
-    background-color: #2b6777!;
-  }
- 
-  th, td {
-    padding: 12px;
-    text-align: left;
-  }
- 
-  .role-cell {
-    position: relative;
-    cursor: pointer;
-  }
- 
-  .categories-tooltip {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    border-radius: 8px;
-    z-index: 10;
-    text-align: left;
-  }
- 
-  .categories-tooltip ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
- 
-  .categories-tooltip li {
-    padding: 4px 0;
-  }
- 
-  .role-cell:hover .categories-tooltip {
-    display: block;
-  }
-  
-  tbody tr:nth-child(even) {
-    background-color: #425a69;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #b6d4c5;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.tr{
+h4 {
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #343a40;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px!;
+}
+
+.thead {
+  background-color: #2b6777!;
+}
+
+thead th {
+  color: #292020;
+  padding: 10px;
+  text-align: left;
+  font-size: 16px;
+  background-color: #2b6777!;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+}
+
+.role-cell {
+  position: relative;
+  cursor: pointer;
+}
+
+.categories-tooltip {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  z-index: 10;
+  text-align: left;
+}
+
+.categories-tooltip ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categories-tooltip li {
+  padding: 4px 0;
+}
+
+.role-cell:hover .categories-tooltip {
+  display: block;
+}
+
+tbody tr:nth-child(even) {
   background-color: #425a69;
 }
- 
-  tbody tr:hover {
-    background-color: #00929c;
-  }
- 
-  table thead th {
-    font-size: 1.1rem;
-  }
- 
- 
+
+.tr {
+  background-color: #425a69;
+}
+
+tbody tr:hover {
+  background-color: #00929c;
+}
+
+table thead th {
+  font-size: 1.1rem;
+}
+
+/* Assigned Categories styling */
+.assigned-categories {
+  cursor: pointer;
+  padding: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.assigned-categories-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.assigned-categories-content .badge {
+  background-color: #00929c;
+  padding: 5px 10px;
+  color: rgb(19, 18, 18);
+  border-radius: 5px;
+}
+
+.expanded-row .assigned-categories {
+  background-color: #0a363b;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.expanded-row .assigned-categories-content {
+  max-height: 200px;
+  overflow-y: auto;
+  display: block;
+  padding: 15px;
+}
+
+.badge{
+  color: #0a363b;
+  font-size: 15px;
+}

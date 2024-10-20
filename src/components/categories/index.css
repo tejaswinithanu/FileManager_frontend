@@ -1,6 +1,7 @@
 .dropdown {
   position: relative;
   display: inline-block;
+  
 }
 
 .sub-dropdown {
@@ -22,4 +23,7 @@
   color: #007bff;
   cursor: pointer;
   margin-left: 10px;
+}
+.form-control{
+  border: 1px solid #8a99aa;
 }
