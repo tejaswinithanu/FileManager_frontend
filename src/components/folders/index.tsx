@@ -6,12 +6,14 @@ import { useSelector } from "react-redux"
 import './index.css'
 
 export const Folders=()=>{
-    const {userDetails}=useSelector((state:any)=>state.userStore)
-    const {assignedCategories}=userDetails
-    //console.log(assignedCategories)
-
+    const userDetails:any=localStorage.getItem('userDetails');
+    //console.log(userDetails)
     const folders=useSelector((state:any)=>state.fileCategoryStore.fileCategories)
-    const assignedFolders=folders.filter((category:any)=>assignedCategories.includes(category.categoryName))
+    const {assignedCategories}=JSON.parse(userDetails)  
+    //console.log('assignedCategories',assignedCategories)
+
+    
+    const assignedFolders=folders.filter((category:any)=>assignedCategories.includes(category.value))
 
     return(
         <div className="folders-container">

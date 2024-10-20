@@ -1,20 +1,14 @@
 import { createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 
-// export const fetchFiles=createAsyncThunk('files/fetchFiles',async()=>{
-//     try{
-//         const response=await axios.get('https://testsamplefnexp.azurewebsites.net/api/filefunctions')
-//         return response.data
-//     }catch(err:any){
-//         return 
-//     }
-// })
+
 
 export const fetchFilesByCategory:any=createAsyncThunk('files/fileByCategory',async(category,{rejectWithValue})=>{
     //console.log(category)
     try{
         const response=await axios.get(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?category=${category}`)
         if(response.status===200){
+            console.log(response.data)
             return response.data
         }
     }catch(err:any){
@@ -24,9 +18,12 @@ export const fetchFilesByCategory:any=createAsyncThunk('files/fileByCategory',as
 
 export const deleteFile=createAsyncThunk('files/deleteFile',async(params:any,{rejectWithValue})=>{
     const {selectedFile,userMail}=params;
+    console.log(selectedFile,userMail)
     try{
-        const response=await axios.get(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?blobName=${selectedFile}&userMail=${userMail}`)
-        return response.data
+        const response=await axios.delete(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?blobName=${selectedFile}&userMail=${userMail}`)
+        if(response.status===200){
+            return response.data
+        }
     }catch(err:any){
         return rejectWithValue(err.response?.data || 'Something went wrong')
     }
@@ -39,7 +36,8 @@ const fileSlice=createSlice({
         filterValue:"",
         status:"idle",   //  loading/succeeded/failed 
         error:"",
-        deleteStatus:"idle"
+        deleteStatus:"idle",
+        sortBy:""
     },
     reducers:{
         addFile:(state:any,action)=>{
@@ -54,6 +52,13 @@ const fileSlice=createSlice({
                 return lowercaseName.includes(action.payload)
             })
             state.files=filteredFiles
+        },
+        setStatus:(state:any,action)=>{
+            state.status=action.payload
+        },
+        setSortValue:(state:any,action)=>{
+            console.log(action.payload)
+            state.sortBy=action.payload
         }
     },
     extraReducers:(builder)=>{
@@ -85,15 +90,17 @@ const fileSlice=createSlice({
             state.deleteStatus='loading'
         })
         .addCase(deleteFile.fulfilled,(state:any,action)=>{
+            state.status='loading'
             state.deleteStatus='succeeded'
         })
         .addCase(deleteFile.rejected,(state:any,action)=>{
+            state.status='succeeded'
             state.deleteStatus='failed'
             state.error=action.payload || action.error.message
         })
     }
 })
 
-export const {addFile,updateFilterValue}=fileSlice.actions
+export const {addFile,updateFilterValue,setStatus,setSortValue}=fileSlice.actions
 
 export default fileSlice.reducer

@@ -6,14 +6,15 @@ import './index.css'
  
 export const Users = () => {
     const users = useSelector((state: any) => state.userStore.users)
+    console.log(users)
  
     const dispatch = useDispatch();
  
     useEffect(() => {
         dispatch<any>(fetchUsers())
-    }, [])
+    }, [dispatch])
  
-    console.log(typeof users)
+    //console.log(typeof users)
  
  
     const isLoading = useSelector((state: any) => state.userStore.loading)

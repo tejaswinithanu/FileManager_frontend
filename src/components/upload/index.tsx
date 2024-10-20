@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from 'uuid';
 import { useDispatch, useSelector } from "react-redux"
-import { addFile, fetchFilesByCategory } from "../../store/fileStore"
+import { addFile, fetchFilesByCategory, setStatus } from "../../store/fileStore"
 
 
 export const Upload=()=>{
@@ -11,13 +11,14 @@ export const Upload=()=>{
 
     const handleFileChange=async (event:any)=>{
         let file=event.target.files?.[0]
-
+        dispatch(setStatus('loading'))
         const formData:any = new FormData();
         formData.append('file', file);
         
-        const userMail=localStorage.getItem('mail')
+        const userDetails:any=localStorage.getItem('userDetails')
+        const {email}=JSON.parse(userDetails)
         try{
-            const response=await fetch(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?userMail=${userMail}&category=${activeCategory}`,
+            const response=await fetch(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?userMail=${email}&category=${activeCategory}`,
                 {
                     method:'POST',
                     body:formData

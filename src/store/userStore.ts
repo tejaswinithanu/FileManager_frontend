@@ -14,27 +14,16 @@ export const inviteUser:any=createAsyncThunk('users/inviteUser', async (userDeta
     
   });
 
-export const fetchUsers=createAsyncThunk('users/fetchUsers',async ()=>{
+export const fetchUsers=createAsyncThunk('users/fetchUsers',async (_,{rejectWithValue})=>{
     try{
       const response=await axios.get('https://testsamplefnexp.azurewebsites.net/api/userfunctions');
       
       if(response.status===200){
-        const userRole=localStorage.getItem('role');
-        const usersList=response.data
-        //console.log('userList',usersList)
-        if(!userRole){
-          const userMail=localStorage.getItem('mail');
-          const loggedInUser=usersList.find((user:any)=>user.email===userMail)
-          console.log('categories',loggedInUser.categories)
-          localStorage.setItem('role',loggedInUser.role)
-          return {usersList,userRole:loggedInUser.role,categories:loggedInUser.categories}
-        }
-        
-        return {usersList,userRole}
+        return response.data
       }
       
     }catch(err:any){
-      throw new Error(err.message)
+        return rejectWithValue(err.response.data || 'Something went wrong')
     }
 })
 
@@ -43,46 +32,37 @@ const userStore=createSlice({
     initialState:{
         users:[],
         selectedCategories:fileCategories.getAllFileCategories().map((eachCategory:any)=>eachCategory.value),
-        loading:"",
-        error:"",
-        userRole:"",
-        assignedCategories:[],
-        userDetails:{}
+        status:'idle',
+        error:""
+        //userDetails:{}
     },
     reducers:{
         addCategories:(state:any,action)=>{
             //console.log(action.payload)
             state.selectedCategories=action.payload
         },
-        addUserDetails:(state:any,action)=>{
-            console.log('action.payload',action.payload)
-            state.userDetails=action.payload
-            console.log('state.userDetails',state.userDetails)
-        }
+        // addUserDetails:(state:any,action)=>{
+        //     console.log('action.payload',action.payload)
+        //     state.userDetails=action.payload
+        //     console.log('state.userDetails',state.userDetails)
+        // }
     },
     extraReducers: (builder) => {
         builder
           .addCase(fetchUsers.pending,(state:any)=>{
-            state.loading=true;
+            state.status='loading';
           })
           .addCase(fetchUsers.fulfilled,(state:any,action:any)=>{
-            const {usersList,userRole,categories}=action.payload
-            //console.log(usersList)
-            //console.log('user-role',userRole)
-            state.loading=false;
-            state.users=usersList
-            state.userRole=userRole
-            if(categories){
-              state.assignedCategories=categories
-            }
+              state.status='succeeded'
+              state.users=action.payload
           })
           .addCase(fetchUsers.rejected,(state:any,action)=>{
-            state.loading=false;
+            state.status='failed'
             state.error=action.payload
           })
       },
 })
 
-export const {addCategories,addUserDetails}=userStore.actions
+export const {addCategories}=userStore.actions
 
 export default userStore.reducer

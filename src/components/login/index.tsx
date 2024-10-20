@@ -105,7 +105,7 @@ export const Login = () => {
                     className='login-btn'
                     disabled={isSubmitting} // Disable button if the form is submitting
                 >
-                    Login with <img className='microsoft-icon' src='https://res.cloudinary.com/dywrzseia/image/upload/v1729364368/microsoft_732221_2_qzxstc.png'/>
+                    Login with <img alt="microsoft" className='microsoft-icon' src='https://res.cloudinary.com/dywrzseia/image/upload/v1729364368/microsoft_732221_2_qzxstc.png'/>
                 </button>
                 </div>
                 

@@ -15,12 +15,9 @@ const LoginPage = () => {
         <div className="login-page-container">
             <div className="sub-container">
                 <div className="img-div">
-                    <img src="https://jumptools.com/wp-content/uploads/2023/03/section_client-portal_illustration-1.png" className="login-img" />
-                    <div>
-                        
-                    </div>
+                    <img alt="login" src="https://jumptools.com/wp-content/uploads/2023/03/section_client-portal_illustration-1.png" className="login-img" />
                 </div>
-                <div className="content-div">
+                <div>
                     <Login />
                 </div>
             </div>

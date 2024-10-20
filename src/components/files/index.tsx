@@ -6,9 +6,8 @@ import Modal from 'react-modal'
 import  {FileIcon,defaultStyles}  from 'react-file-icon';
 
 import './index.css'
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { fetchFilesByCategory } from "../../store/fileStore";
+import { deleteFile, fetchFilesByCategory, setStatus } from "../../store/fileStore";
 import { Loading } from "../loading";
 import { useParams } from "react-router-dom";
 import { setActiveCategory } from "../../store/fileCategoryStore";
@@ -16,6 +15,12 @@ import { setActiveCategory } from "../../store/fileCategoryStore";
 Modal.setAppElement('#root')
 
 
+const sortingFunctions:any={
+    'default':null,
+    'name':(a:any, b:any) => a.name.localeCompare(b.name),
+    'date-asc': (a:any, b:any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+    'date-desc': (a:any, b:any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+}
 
 export const Files=()=>{
 
@@ -23,22 +28,30 @@ export const Files=()=>{
     const [selectedFile,setSelectedFile]=useState("");
     
     const [isDeletePopupOpen,setDeletePopup]=useState(false);
-    const {files, status, error}=useSelector((state:any)=>state.fileStore)
+    const {files, status, error, deleteStatus, sortBy}=useSelector((state:any)=>state.fileStore)
+    const [filesList,updateFilesList]=useState(files)
 
     const searchValue=useSelector((state:any)=>state.fileStore.filterValue)
 
-    const filteredFiles=files.filter((file:any)=>{
-        const lowercaseName=file.name.toLowerCase()
-        return lowercaseName.includes(searchValue.toLowerCase())
-    })
+    useEffect(() => {
+        let updatedFiles = [...files];
 
-    const searchValue=useSelector((state:any)=>state.fileStore.filterValue)
+        // Apply filtering if there is a search value
+        if (searchValue) {
+            updatedFiles = updatedFiles.filter((file:any) => 
+                file.name.toLowerCase().includes(searchValue.toLowerCase())
+            );
+        }
 
-    const filteredFiles=files.filter((file:any)=>{
-        const lowercaseName=file.name.toLowerCase()
-        return lowercaseName.includes(searchValue.toLowerCase())
-    })
- 
+        // Apply sorting if sortBy is specified
+        if (sortBy !== '' && sortBy !== 'default') {
+            updatedFiles = updatedFiles.sort(sortingFunctions[sortBy]);
+        }
+
+        // Update the files list state
+        updateFilesList(updatedFiles);
+    }, [files, searchValue, sortBy]);
+
 
     const {category}=useParams()
 
@@ -55,27 +68,31 @@ export const Files=()=>{
 
     useEffect(()=>{
         dispatch(setActiveCategory(category))
+        console.log('activeCategory',category)
         dispatch<any>(fetchFilesByCategory(category))
         console.log(typeof files)
     },[dispatch])
 
-    const deleteFile=async ()=>{
-        const userMail=localStorage.getItem('mail')
-        console.log('userMail',userMail)
-        console.log('fileName',selectedFile)
-        try{
-            const response=await axios.delete(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?blobName=${selectedFile}&userMail=${userMail}`)
-            //console.log(response.data)
-            if(response.status===200){
-                closeModal()
-                setDeletePopup(true)
-                dispatch<any>(fetchFilesByCategory(category))
-                
-            }
-        }catch(err:any){
-            console.log(err.response.data)
-        }
+    const handleDeleteFile=async ()=>{
+        const userDetails:any=localStorage.getItem('userDetails')
+        const {email}=JSON.parse(userDetails)
+        closeModal()
+        dispatch(setStatus('loading'))
+        await dispatch<any>(deleteFile({selectedFile,userMail:email}))
         
+        dispatch<any>(fetchFilesByCategory(category))
+        // try{
+        //     const response=await axios.delete(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?blobName=${selectedFile}&userMail=${email}`)
+        //     //console.log(response.data)
+        //     if(response.status===200){
+        //         closeModal()
+        //         
+        //         dispatch<any>(fetchFilesByCategory(category))
+                
+        //     }
+        // }catch(err:any){
+        //     console.log(err.response.data)
+        // }    
         
     }
 
@@ -99,9 +116,9 @@ export const Files=()=>{
                     <FileSearcherBar/>
 
                     
-                    <ul className="row">
+                    <ul className="row m-4">
 
-                    {filteredFiles.map((eachFile:any)=>{
+                    {filesList.map((eachFile:any)=>{
                         const extension=eachFile.name.split(".").pop();
                         const iconStyle = defaultStyles[extension as keyof typeof defaultStyles];
                         
@@ -126,7 +143,7 @@ export const Files=()=>{
                                 <Modal isOpen={isOpen} onRequestClose={closeModal} contentLabel="Example Modal" className="modal-content d-flex flex-column align-center" overlayClassName="modal-overlay">
                                     <h6 className="mb-4">Are you sure?</h6>
                                     <div className="d-flex justify-content-center">
-                                    <button onClick={()=>deleteFile()} className="btn btn-outline-danger px-5 me-2">Delete</button>    
+                                    <button onClick={()=>handleDeleteFile()} className="btn btn-outline-danger px-5 me-2">Delete</button>    
 
                                     <button onClick={closeModal} className='btn btn-danger px-5 ms-2'>
                                     Close

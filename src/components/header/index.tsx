@@ -2,13 +2,12 @@ import { FaFolderOpen } from "react-icons/fa6";
 
 import './index.css'
 import { Link} from "react-router-dom";
-import { useSelector } from "react-redux";
+
 
 export const Header=()=>{
 
-    const userDetails=useSelector((state:any)=>state.userStore.userDetails)
-    const {username,role}=userDetails
-    console.log(username,role,userDetails)
+    const userDetails:any=localStorage.getItem('userDetails')
+    const {username,role}=JSON.parse(userDetails)
 
     const handleLogout=()=>{
         localStorage.clear(); 
@@ -26,7 +25,7 @@ export const Header=()=>{
         <nav id="navbar-example2" className="navbar navbar-dark px-5 header">
             <Link className="navbar-brand app-name" to="/">
             <FaFolderOpen className="me-2"/>
-            File Manager.</Link>
+            File Manager</Link>
 
             <ul className="nav nav-pills">
                 <li className="nav-item">

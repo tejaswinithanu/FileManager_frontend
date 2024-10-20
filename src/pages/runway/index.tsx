@@ -3,8 +3,7 @@ import { useEffect } from 'react';
 
 import './index.css'
 import { Loading } from '../../components/loading';
-import { useDispatch, useSelector } from 'react-redux';
-import { addUserDetails } from '../../store/userStore';
+import { useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const LoadingRunway=()=>{
@@ -31,7 +30,9 @@ const LoadingRunway=()=>{
                 assignedCategories:data.userDetails.categories
             }
 
-            dispatch(addUserDetails(userDetails))
+            localStorage.setItem('userDetails',JSON.stringify(userDetails))
+
+            //dispatch(addUserDetails(userDetails))
             
             //window.location.href='/'
             navigate('/')
