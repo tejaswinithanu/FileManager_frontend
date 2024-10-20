@@ -8,7 +8,7 @@ import  {FileIcon,defaultStyles}  from 'react-file-icon';
 import './index.css'
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { fetchFiles, fetchFilesByCategory } from "../../store/fileStore";
+import { fetchFilesByCategory } from "../../store/fileStore";
 import { Loading } from "../loading";
 import { useParams } from "react-router-dom";
 import { setActiveCategory } from "../../store/fileCategoryStore";
@@ -23,8 +23,14 @@ export const Files=()=>{
     const [selectedFile,setSelectedFile]=useState("");
     
     const [isDeletePopupOpen,setDeletePopup]=useState(false);
-    const files=useSelector((state:any)=>state.fileStore.files)
-    const isLoading=useSelector((state:any)=>state.fileStore.loading)
+    const {files, status, error}=useSelector((state:any)=>state.fileStore)
+
+    const searchValue=useSelector((state:any)=>state.fileStore.filterValue)
+
+    const filteredFiles=files.filter((file:any)=>{
+        const lowercaseName=file.name.toLowerCase()
+        return lowercaseName.includes(searchValue.toLowerCase())
+    })
 
     const searchValue=useSelector((state:any)=>state.fileStore.filterValue)
 
@@ -51,12 +57,7 @@ export const Files=()=>{
         dispatch(setActiveCategory(category))
         dispatch<any>(fetchFilesByCategory(category))
         console.log(typeof files)
-    },[])
-
-    
-    // const createFileUrl = (file:any) => {
-    //     return URL.createObjectURL(file);
-    // };
+    },[dispatch])
 
     const deleteFile=async ()=>{
         const userMail=localStorage.getItem('mail')
@@ -68,9 +69,7 @@ export const Files=()=>{
             if(response.status===200){
                 closeModal()
                 setDeletePopup(true)
-
-                setTimeout(() => setDeletePopup(false), 2000);
-                dispatch<any>(fetchFiles())
+                dispatch<any>(fetchFilesByCategory(category))
                 
             }
         }catch(err:any){
@@ -80,21 +79,29 @@ export const Files=()=>{
         
     }
 
+    if (status==="loading") return <Loading/>
+
+    if (status === 'failed') return <div>Error: {error}</div>;
+
+    if (status === 'succeeded' && files.length === 0) return <EmptyView/>
 
     return(
-        <>
-        
         <div>
             {
-                filteredFiles.length===0?
-                <EmptyView/>:
+
+   
+
+                files.length!==0 &&
+              
+
                 (
                     <div className="files-container">
                     <FileSearcherBar/>
-                    {isLoading && <Loading/>}
+
+                    
                     <ul className="row">
 
-                    {files.map((eachFile:any)=>{
+                    {filteredFiles.map((eachFile:any)=>{
                         const extension=eachFile.name.split(".").pop();
                         const iconStyle = defaultStyles[extension as keyof typeof defaultStyles];
                         
@@ -119,7 +126,7 @@ export const Files=()=>{
                                 <Modal isOpen={isOpen} onRequestClose={closeModal} contentLabel="Example Modal" className="modal-content d-flex flex-column align-center" overlayClassName="modal-overlay">
                                     <h6 className="mb-4">Are you sure?</h6>
                                     <div className="d-flex justify-content-center">
-                                    <button onClick={deleteFile} className="btn btn-outline-danger px-5 me-2">Delete</button>    
+                                    <button onClick={()=>deleteFile()} className="btn btn-outline-danger px-5 me-2">Delete</button>    
 
                                     <button onClick={closeModal} className='btn btn-danger px-5 ms-2'>
                                     Close
@@ -133,9 +140,9 @@ export const Files=()=>{
                     })}
                     </ul>
                     {isDeletePopupOpen && (
-                                    <div className="popup-container">
-                                    <div className="popup-content">File deleted successfully!</div>
-                                    </div>
+                            <Modal isOpen={isOpen} onRequestClose={()=>setDeletePopup(false)} contentLabel="Example Modal" className="modal-content d-flex flex-column align-center" overlayClassName="modal-overlay">
+                                <div>File deleted Successfully</div>
+                            </Modal>        
                     )}
                     </div>
                 )
@@ -143,6 +150,5 @@ export const Files=()=>{
            
 
         </div>
-        </>
     )
 }

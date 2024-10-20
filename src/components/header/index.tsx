@@ -2,15 +2,16 @@ import { FaFolderOpen } from "react-icons/fa6";
 
 import './index.css'
 import { Link} from "react-router-dom";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 export const Header=()=>{
 
-    const memberRole=useSelector((state:any)=>state.userStore.userRole)
+    const userDetails=useSelector((state:any)=>state.userStore.userDetails)
+    const {username,role}=userDetails
+    console.log(username,role,userDetails)
 
     const handleLogout=()=>{
-        localStorage.clear();
+        localStorage.clear(); 
         const azureLogoutUrl = `https://login.microsoftonline.com/${
             process.env.REACT_APP_TENANT_ID
           }/oauth2/v2.0/logout?post_logout_redirect_uri=${encodeURIComponent(
@@ -19,14 +20,14 @@ export const Header=()=>{
         window.location.href = azureLogoutUrl;
     }
 
-    const memberName=localStorage.getItem('username')
-
     return(
         
+
         <nav id="navbar-example2" className="navbar navbar-dark px-5 header">
-            <a className="navbar-brand app-name" href="/">
+            <Link className="navbar-brand app-name" to="/">
             <FaFolderOpen className="me-2"/>
-            File Manager.</a>
+            File Manager.</Link>
+
             <ul className="nav nav-pills">
                 <li className="nav-item">
                 <Link className="link-item nav-link" to="/folders">
@@ -35,21 +36,18 @@ export const Header=()=>{
                 
                 </Link>
                 </li>
-                {/* <li className="nav-item link-item">
-                <Link className="link-item nav-link" to="/files">
-                
-                    All Files
-                  
-                </Link>
-                </li> */}
+
                 <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle link-item" data-bs-toggle="dropdown" href="#." role="button" aria-expanded="false">{memberName}</a>
+                <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#." role="button" aria-expanded="false">
+                    {username}
+                </a>
+
                 <ul className="dropdown-menu">
                     <li><Link className="dropdown-item ps-3" to="/folders">Folders</Link></li>
                     <li><hr className="dropdown-divider"/></li>
                     
                     {
-                        memberRole==="admin" &&
+                        role==="admin" &&
                         <li>
                         <Link className="drop-item dropdown-item ps-3" to="/user-management">
                             User Management

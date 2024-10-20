@@ -3,8 +3,14 @@ import { useEffect } from 'react';
 
 import './index.css'
 import { Loading } from '../../components/loading';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUserDetails } from '../../store/userStore';
+import { useNavigate } from 'react-router-dom';
 
 const LoadingRunway=()=>{
+
+    const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     useEffect(()=>{
         const getUser=async()=>{
@@ -13,12 +19,24 @@ const LoadingRunway=()=>{
             console.log(code)
             const res=await axios.post(`https://testsamplefnexp.azurewebsites.net/api/AuthFunctions?code=${code}`)
            
-            console.log(res.data)
-            localStorage.setItem("token",res.data.token)
-            localStorage.setItem('mail',res.data.userDetails.mail)
-            localStorage.setItem('username',res.data.userDetails.displayName)
+            const data=res.data
         
-            window.location.href='/'
+            //console.log(res.data)
+            localStorage.setItem("token",data.token)
+
+            const userDetails={
+                email:data.userDetails.mail,
+                username:data.userDetails.displayName,
+                role:data.userDetails.role,
+                assignedCategories:data.userDetails.categories
+            }
+
+            dispatch(addUserDetails(userDetails))
+            
+            //window.location.href='/'
+            navigate('/')
+            
+        
             }
             catch(err){
                 console.log(err)
