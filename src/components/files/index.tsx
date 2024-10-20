@@ -8,7 +8,7 @@ import  {FileIcon,defaultStyles}  from 'react-file-icon';
 import './index.css'
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { fetchFiles, fetchFilesByCategory } from "../../store/fileStore";
+import { fetchFilesByCategory } from "../../store/fileStore";
 import { Loading } from "../loading";
 import { useParams } from "react-router-dom";
 import { setActiveCategory } from "../../store/fileCategoryStore";
@@ -23,9 +23,7 @@ export const Files=()=>{
     const [selectedFile,setSelectedFile]=useState("");
     
     const [isDeletePopupOpen,setDeletePopup]=useState(false);
-    const files=useSelector((state:any)=>state.fileStore.files)
-    const isLoading=useSelector((state:any)=>state.fileStore.loading)
-    const activeCategory=useSelector((state:any)=>state.fileCategoryStore)
+    const {files, status, error}=useSelector((state:any)=>state.fileStore)
 
     const searchValue=useSelector((state:any)=>state.fileStore.filterValue)
 
@@ -51,12 +49,7 @@ export const Files=()=>{
         dispatch(setActiveCategory(category))
         dispatch<any>(fetchFilesByCategory(category))
         console.log(typeof files)
-    },[])
-
-    
-    // const createFileUrl = (file:any) => {
-    //     return URL.createObjectURL(file);
-    // };
+    },[dispatch])
 
     const deleteFile=async ()=>{
         const userMail=localStorage.getItem('mail')
@@ -78,18 +71,20 @@ export const Files=()=>{
         
     }
 
+    if (status==="loading") return <Loading/>
+
+    if (status === 'failed') return <div>Error: {error}</div>;
+
+    if (status === 'succeeded' && files.length === 0) return <EmptyView/>
 
     return(
-        <>
-        
         <div>
             {
-                files.length===0?
-                <EmptyView/>:
+                files.length!==0 &&
+                // <EmptyView/>:
                 (
                     <>
                     <FileSearcherBar/>
-                    {isLoading && <Loading/>}
                     <ul className="row ps-0 m-5">
 
                     {filteredFiles.map((eachFile:any)=>{
@@ -141,6 +136,5 @@ export const Files=()=>{
            
 
         </div>
-        </>
     )
 }

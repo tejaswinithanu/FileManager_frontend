@@ -6,10 +6,12 @@ import { useSelector } from "react-redux";
 
 export const Header=()=>{
 
-    const memberRole=useSelector((state:any)=>state.userStore.userRole)
+    const userDetails=useSelector((state:any)=>state.userStore.userDetails)
+    const {username,role}=userDetails
+    console.log(username,role,userDetails)
 
     const handleLogout=()=>{
-        localStorage.clear();
+        localStorage.clear(); 
         const azureLogoutUrl = `https://login.microsoftonline.com/${
             process.env.REACT_APP_TENANT_ID
           }/oauth2/v2.0/logout?post_logout_redirect_uri=${encodeURIComponent(
@@ -17,8 +19,6 @@ export const Header=()=>{
           )}`;
         window.location.href = azureLogoutUrl;
     }
-
-    const memberName=localStorage.getItem('username')
 
     return(
         
@@ -35,13 +35,15 @@ export const Header=()=>{
                 </Link>
                 </li>
                 <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#." role="button" aria-expanded="false">{memberName}</a>
+                <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#." role="button" aria-expanded="false">
+                    {username}
+                </a>
                 <ul className="dropdown-menu">
                     <li><Link className="dropdown-item ps-3" to="/folders">Folders</Link></li>
                     <li><hr className="dropdown-divider"/></li>
                     
                     {
-                        memberRole==="admin" &&
+                        role==="admin" &&
                         <li>
                         <Link className="link-item dropdown-item ps-3" to="/user-management">
                             User Management

@@ -20,3 +20,5 @@ const fileCategorySlice=createSlice({
 export const {setActiveCategory}=fileCategorySlice.actions
 
 export default fileCategorySlice.reducer
+
+

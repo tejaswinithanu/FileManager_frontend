@@ -6,7 +6,8 @@ import { useSelector } from "react-redux"
 import './index.css'
 
 export const Folders=()=>{
-    const assignedCategories=useSelector((state:any)=>state.userStore.assignedCategories)
+    const {userDetails}=useSelector((state:any)=>state.userStore)
+    const {assignedCategories}=userDetails
     //console.log(assignedCategories)
 
     const folders=useSelector((state:any)=>state.fileCategoryStore.fileCategories)

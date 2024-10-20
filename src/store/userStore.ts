@@ -46,12 +46,18 @@ const userStore=createSlice({
         loading:"",
         error:"",
         userRole:"",
-        assignedCategories:[]
+        assignedCategories:[],
+        userDetails:{}
     },
     reducers:{
         addCategories:(state:any,action)=>{
-            console.log(action.payload)
+            //console.log(action.payload)
             state.selectedCategories=action.payload
+        },
+        addUserDetails:(state:any,action)=>{
+            console.log('action.payload',action.payload)
+            state.userDetails=action.payload
+            console.log('state.userDetails',state.userDetails)
         }
     },
     extraReducers: (builder) => {
@@ -61,8 +67,8 @@ const userStore=createSlice({
           })
           .addCase(fetchUsers.fulfilled,(state:any,action:any)=>{
             const {usersList,userRole,categories}=action.payload
-            console.log(usersList)
-            console.log('user-role',userRole)
+            //console.log(usersList)
+            //console.log('user-role',userRole)
             state.loading=false;
             state.users=usersList
             state.userRole=userRole
@@ -77,6 +83,6 @@ const userStore=createSlice({
       },
 })
 
-export const {addCategories}=userStore.actions
+export const {addCategories,addUserDetails}=userStore.actions
 
 export default userStore.reducer
