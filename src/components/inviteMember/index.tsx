@@ -1,107 +1,160 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-
-import './index.css'
+import './index.css';
 import { CategoriesDropdown } from '../categories';
+import { fetchUsers } from "../../store/userStore";
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Field, Formik, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup'
+import { ToastContainer, toast } from 'react-toastify'; // Import Toastify
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 import { inviteUser } from '../../store/userStore';
 
+Modal.setAppElement('#root');
 
-Modal.setAppElement('#root')
+export const AddUser: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState('user');
+  const [emailError, setEmailError] = useState('');
 
-const validationSchema=Yup.object({
-    email:Yup.string().email('Invalid email').matches(/^[a-zA-Z0-9._%+-]+@g7cr\.com$/, 'Email must be registered under g7cr.com address').required('Email is required')
-})
+  const dispatch = useDispatch();
+  const selectedCategories = useSelector(
+    (state: any) => state.userStore.selectedCategories
+  );
 
-export const AddUser:React.FC=()=>{
-    const [isOpen,setIsOpen]=useState(false);
+  const openModal = () => {
+    setIsOpen(true);
+  };
 
-    const dispatch=useDispatch();
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
-    const openModal = () => {
-        setIsOpen(true);
-    };
+  // Toastify notifications
+  const notifySuccess = (message: string) => {
+    toast.success(message, {
+      position:'top-right',
+      autoClose: 5000,
+      theme:"dark"
+    });
+  };
 
-    const closeModal = () => {
-        setIsOpen(false);
-    };
+  const notifyError = (message: string) => {
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 5000,
+      theme:"dark"
+    });
+  };
 
-    const selectedCategories=useSelector((state:any)=>state.userStore.selectedCategories)
+  const validateEmail = (value: string) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@g7cr\.com$/; // Regex for g7cr.com domain
+    if (!value) {
+      return 'Email is required';
+    } else if (!emailRegex.test(value)) {
+      return 'Email must be registered under g7cr.com address';
+    } else if (!/\S+@\S+\.\S+/.test(value)) {
+      return 'Invalid email';
+    }
+    return '';
+  };
 
-    return(
-        <div className="d-flex flex-row justify-content-end add-user-bar shadow">
-            <button 
-                onClick={openModal}
-                className='btn btn-primary'
-                >
-                Invite Member
-            </button>
-            <Modal isOpen={isOpen} onRequestClose={closeModal} contentLabel="Example Modal" className="modal-content" overlayClassName="modal-overlay">
-                {/* <form className='d-flex flex-column'>
-                <div className='d-flex flex-column mb-3'>
-                    <label className='form-label' htmlFor='email'>User email</label>
-                    <input onChange={onChangeEmail} id="email" className='form-control' type="email" placeholder="Enter User email"/>
-                </div>
-                <div className='mb-3'>
-                    <label className='me-2 form-label' htmlFor="access-level">Access level</label>
-                    <select style={{ cursor: 'pointer' }} onChange={handleRoleChange} value={role} className='form-control' id="access-level">
-                        <option value="user">user</option>
-                        <option value="admin">admin</option>
-                    </select>
-                </div>
-                {role==='user'&& (
-                    <div className='mb-3 d-flex'>      
-                        <CategoriesDropdown/>
-                    </div>
-                )}
-                
-                <button onClick={handleInviteMember} type="submit" className='btn btn-primary mb-3'>Invite {role}</button>
-                </form> */}
-                <Formik
-                    initialValues={{email:"",role:"user"}}
-                    validationSchema={validationSchema}
-                    onSubmit={async (values,{setSubmitting})=>{
-                        
-                        const userDetails={...values,categories:selectedCategories}
-                        console.log('userDetails before dispatch',userDetails)
-                        dispatch<any>(inviteUser(userDetails))
-                        closeModal()
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const emailValidationError = validateEmail(email);
 
-                     }}
-                >
-                {({isSubmitting,values})=>(
-                    <Form className='d-flex flex-column'>
-                        <div className='d-flex flex-column mb-3'>
-                            <label className='form-label' htmlFor='email'>User email</label>
-                            <Field name="email" id="email" className='form-control' placeholder="Enter User email"/>
-                            <ErrorMessage className='text-danger' name="email"/>
-                        </div>
-                        <div className='mb-3'>
-                            <label className='me-2 form-label' htmlFor="access-level">Access level</label>
-                            <Field name="role" as="select" style={{ cursor: 'pointer' }} className='form-control' id="access-level">
-                                <option value="user">user</option>
-                                <option value="admin">admin</option>
-                            </Field>
-                            <ErrorMessage name="role"/>
-                        </div>
-                        {values.role==='user'&& (
-                            <div className='mb-3 d-flex'>      
-                                <CategoriesDropdown/>
-                            </div>
-                        )}
-                        
-                        <button type="submit" className='btn btn-primary mb-3'>Invite {values.role}</button>
-                    </Form>
-                )}
-                </Formik>
-                
-                <button onClick={closeModal} className='btn btn-danger'>
-                Close
-                </button>
-            </Modal>
-        </div>
-    )
-}
+    if (emailValidationError) {
+      setEmailError(emailValidationError);
+      notifyError(emailValidationError); // Show error via Toastify
+      return;
+    } else {
+      setEmailError('');
+    }
+
+    try {
+      const userDetails = {
+        email,
+        role,
+        categories: selectedCategories,
+      };
+
+      console.log('User details before dispatch:', userDetails);
+
+      // Dispatch the action
+      await dispatch<any>(inviteUser(userDetails));
+      
+ 
+      
+          dispatch<any>(fetchUsers())
+      
+   
+      closeModal();
+      notifySuccess(`Member ${email} invited successfully!`);
+    } catch (error) {
+      notifyError('Failed to invite the user.');
+    }
+  };
+
+  return (
+    <div className="d-flex flex-row justify-content-end add-user-bar shadow">
+      <button onClick={openModal} className="invite-btn">
+        Invite Member
+      </button>
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+        contentLabel="Invite Member Modal"
+        className="modal-content"
+        overlayClassName="modal-overlay"
+      >
+        <form onSubmit={handleSubmit} className="d-flex flex-column">
+          <div className="d-flex flex-column mb-3">
+            <label className="form-label" htmlFor="email">
+              User email
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="form-control"
+              placeholder="Enter User email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="me-2 form-label" htmlFor="access-level">
+              Access level
+            </label>
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              style={{ cursor: 'pointer' }}
+              className="form-control"
+              id="access-level"
+            >
+              <option value="user">user</option>
+              <option value="admin">admin</option>
+            </select>
+          </div>
+
+          {role === 'user' && (
+            <div className="mb-3 d-flex">
+              <CategoriesDropdown />
+            </div>
+          )}
+
+          <button type="submit" className="btn btn-primary mb-3">
+            Invite {role}
+          </button>
+        </form>
+
+        <button onClick={closeModal} className="btn btn-danger">
+          Close
+        </button>
+      </Modal>
+
+      {/* Toastify Container for notifications */}
+      <ToastContainer />
+    </div>
+  );
+};

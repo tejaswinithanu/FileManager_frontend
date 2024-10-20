@@ -26,6 +26,14 @@ export const Files=()=>{
     const files=useSelector((state:any)=>state.fileStore.files)
     const isLoading=useSelector((state:any)=>state.fileStore.loading)
 
+    const searchValue=useSelector((state:any)=>state.fileStore.filterValue)
+
+    const filteredFiles=files.filter((file:any)=>{
+        const lowercaseName=file.name.toLowerCase()
+        return lowercaseName.includes(searchValue.toLowerCase())
+    })
+ 
+
     const {category}=useParams()
 
     const openModal = (fileName:any) => {
@@ -78,13 +86,13 @@ export const Files=()=>{
         
         <div>
             {
-                files.length===0?
+                filteredFiles.length===0?
                 <EmptyView/>:
                 (
-                    <>
+                    <div className="files-container">
                     <FileSearcherBar/>
                     {isLoading && <Loading/>}
-                    <ul className="row ps-0 m-5">
+                    <ul className="row">
 
                     {files.map((eachFile:any)=>{
                         const extension=eachFile.name.split(".").pop();
@@ -129,7 +137,7 @@ export const Files=()=>{
                                     <div className="popup-content">File deleted successfully!</div>
                                     </div>
                     )}
-                    </>
+                    </div>
                 )
             }
            

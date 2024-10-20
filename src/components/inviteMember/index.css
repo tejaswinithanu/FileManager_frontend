@@ -14,3 +14,9 @@
 .add-user-bar{
     padding: 10px 30px;
 }
+.invite-btn{
+    background: linear-gradient(135deg, #12063b, #09555c);
+    padding: 8px;
+    border-radius: 4px;
+    color: aliceblue;
+}

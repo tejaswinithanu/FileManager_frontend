@@ -1,9 +1,15 @@
 import './index.css'
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
-export const Loading=()=>{
-    return(
+export const Loading = () => {
+    return (
         <div className="loader-container">
-            <div className="loader"></div>
+            <DotLottieReact
+                src="path/to/animation.lottie"
+                loop
+                autoplay
+            />
+            <h1>Hold on for a While!</h1>
         </div>
     )
 }

@@ -3,24 +3,27 @@ import { Login } from "../../components/login"
 
 import './index.css'
 
-const LoginPage=()=>{
+const LoginPage = () => {
 
-    const token=localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
-    if(token){
-        return <Navigate to="/"/>
+    if (token) {
+        return <Navigate to="/" />
     }
 
-    return(
+    return (
         <div className="login-page-container">
-            <div className="login-image-container">
-                <img className="login-image" alt="file manager" src="https://res.cloudinary.com/dywrzseia/image/upload/e_background_removal/f_png/v1728629884/illustration-steal-data-concept_23-2148534257_o4pk8h.avif"/>
+            <div className="sub-container">
+                <div className="img-div">
+                    <img src="https://jumptools.com/wp-content/uploads/2023/03/section_client-portal_illustration-1.png" className="login-img" />
+                    <div>
+                        
+                    </div>
+                </div>
+                <div className="content-div">
+                    <Login />
+                </div>
             </div>
-            <div className="login-container display-center">
-                <img alt="file manager" className="logo-image" src="https://res.cloudinary.com/dqqijdyjr/image/upload/v1728624292/ihnfjchmcdymjfidvsz0.png"/>
-                <h5 className="login-page-text mb-4 text-secondary">Welcome to File Manager, login to get started!</h5>
-                <Login/>
-            </div>  
         </div>
     )
 }
