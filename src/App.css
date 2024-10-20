@@ -51,15 +51,14 @@ select.form-control {
   appearance: auto; /* Ensure the dropdown arrow is visible */
 }
 
-.modal-content {
-  background-color: white;
+.modal-content { 
   padding: 20px;
   border-radius: 8px;
   max-width: 400px;
   width: 100%;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   position: relative;
-  background-color: rgb(129, 216, 250);
+  background-color: #d7e3fc;
 }
 
 

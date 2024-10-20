@@ -37,7 +37,7 @@ const fileSlice=createSlice({
         status:"idle",   //  loading/succeeded/failed 
         error:"",
         deleteStatus:"idle",
-        sortBy:""
+        sortBy:"default"
     },
     reducers:{
         addFile:(state:any,action)=>{

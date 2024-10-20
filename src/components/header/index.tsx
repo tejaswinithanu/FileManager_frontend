@@ -2,9 +2,18 @@ import { FaFolderOpen } from "react-icons/fa6";
 
 import './index.css'
 import { Link} from "react-router-dom";
+import Modal from 'react-modal'
+import { useState } from "react";
+
+Modal.setAppElement('#root')
 
 
 export const Header=()=>{
+
+    const [isOpen,setIsOpen]=useState(false); 
+
+    const openModal=()=>setIsOpen(true);
+    const closeModal=()=>setIsOpen(false);
 
     const userDetails:any=localStorage.getItem('userDetails')
     const {username,role}=JSON.parse(userDetails)
@@ -53,8 +62,21 @@ export const Header=()=>{
                         </Link>
                         </li>
                     }
-                    
-                    <button onClick={handleLogout} className="btn btn-outline">Logout</button>
+                    <li>
+                    <button onClick={openModal} className="logout-btn dropdown-item">Logout</button>
+                    {/* <MdDelete className="delete-icon" onClick={()=>openModal(eachFile.name)}/> */}
+                                
+                    <Modal isOpen={isOpen} onRequestClose={closeModal} contentLabel="Example Modal" className="modal-content d-flex flex-column align-center" overlayClassName="modal-overlay">
+                        <h6 className="mb-4">Are you sure, you want to logout?</h6>
+                        <div className="d-flex justify-content-center">
+                        <button onClick={handleLogout} className="btn btn-outline-danger px-5 me-2">Logout</button>    
+
+                        <button onClick={closeModal} className='btn btn-danger px-5 ms-2'>
+                        Close
+                        </button>
+                        </div>
+                    </Modal>
+                    </li>
                 </ul>
                 </li>
                 <li>

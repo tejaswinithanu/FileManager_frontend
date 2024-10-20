@@ -26,8 +26,6 @@ export const Files=()=>{
 
     const [isOpen,setIsOpen]=useState(false); 
     const [selectedFile,setSelectedFile]=useState("");
-    
-    const [isDeletePopupOpen,setDeletePopup]=useState(false);
     const {files, status, error, deleteStatus, sortBy}=useSelector((state:any)=>state.fileStore)
     const [filesList,updateFilesList]=useState(files)
 
@@ -44,7 +42,7 @@ export const Files=()=>{
         }
 
         // Apply sorting if sortBy is specified
-        if (sortBy !== '' && sortBy !== 'default') {
+        if (sortBy !== 'default') {
             updatedFiles = updatedFiles.sort(sortingFunctions[sortBy]);
         }
 
@@ -156,11 +154,7 @@ export const Files=()=>{
                         )
                     })}
                     </ul>
-                    {isDeletePopupOpen && (
-                            <Modal isOpen={isOpen} onRequestClose={()=>setDeletePopup(false)} contentLabel="Example Modal" className="modal-content d-flex flex-column align-center" overlayClassName="modal-overlay">
-                                <div>File deleted Successfully</div>
-                            </Modal>        
-                    )}
+                    
                     </div>
                 )
             }
