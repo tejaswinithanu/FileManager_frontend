@@ -3,12 +3,12 @@ import './index.css'
 
 export const Category=({categoryDetails, handleCategoryClick}:any)=>{
     const [isCategoryAssigned, setCategoryAccess]=useState(false)
-    const {categoryName}=categoryDetails
+    const {categoryName,value}=categoryDetails
 
     //update the category access on click of category
     const onToggleCategory=()=>{
         setCategoryAccess(!isCategoryAssigned)
-        handleCategoryClick(categoryName)
+        handleCategoryClick(value)
     }
 
     return(

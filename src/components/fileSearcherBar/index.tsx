@@ -34,7 +34,7 @@ export const FileSearcherBar=()=>{
     return(
         <div className="search-bar-container">
 
-            <div className="sort-container px-2">
+            <div className="sort-container ps-2">
                 <p className="me-2 mb-0">Sort by :</p>
                 <select onChange={handleSort} className="drop-down-ele m-0">
                     {

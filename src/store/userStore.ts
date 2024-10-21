@@ -14,6 +14,17 @@ export const inviteUser:any=createAsyncThunk('users/inviteUser', async (userDeta
     
   });
 
+export const deleteUser:any=createAsyncThunk('users/deleteUser',async (userMail,{rejectWithValue})=>{
+  try{
+    const response=await axios.delete(`https://testsamplefnexp.azurewebsites.net/api/userfunctions?userMail=${userMail}`)
+    if(response.status===200){
+      return response.data
+    }
+  }catch(err:any){
+    return rejectWithValue(err.response?.data)
+  }
+})
+
 export const fetchUsers=createAsyncThunk('users/fetchUsers',async (_,{rejectWithValue})=>{
     try{
       const response=await axios.get('https://testsamplefnexp.azurewebsites.net/api/userfunctions');

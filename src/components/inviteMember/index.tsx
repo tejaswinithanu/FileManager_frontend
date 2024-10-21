@@ -80,15 +80,11 @@ export const AddUser: React.FC = () => {
       console.log('User details before dispatch:', userDetails);
 
       // Dispatch the action
-      await dispatch<any>(inviteUser(userDetails));
-      
- 
-      
-          dispatch<any>(fetchUsers())
-      
-   
       closeModal();
+      await dispatch<any>(inviteUser(userDetails)); 
+      dispatch<any>(fetchUsers())
       notifySuccess(`Member ${email} invited successfully!`);
+      setEmail("");
     } catch (error) {
       notifyError('Failed to invite the user.');
     }

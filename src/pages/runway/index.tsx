@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 const LoadingRunway=()=>{
 
     const navigate=useNavigate();
-    const dispatch=useDispatch();
 
     useEffect(()=>{
         const getUser=async()=>{
