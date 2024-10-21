@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { FileCategories } from "../services/fileCategories.service";
-import axios from "axios";
-
+import axios from "../services/axiosInstance";
 const fileCategories=new FileCategories()
 
 export const inviteUser:any=createAsyncThunk('users/inviteUser', async (userDetails) => {
     console.log('userDetails inside thunk',userDetails)
-    const response=await axios.post('https://testsamplefnexp.azurewebsites.net/api/userfunctions',userDetails)
+    const response=await axios.post('/userfunctions',userDetails)
 
     console.log('api called')
     console.log('response',response.data)
@@ -16,7 +15,7 @@ export const inviteUser:any=createAsyncThunk('users/inviteUser', async (userDeta
 
 export const deleteUser:any=createAsyncThunk('users/deleteUser',async (userMail,{rejectWithValue})=>{
   try{
-    const response=await axios.delete(`https://testsamplefnexp.azurewebsites.net/api/userfunctions?userMail=${userMail}`)
+    const response=await axios.delete(`/userfunctions?userMail=${userMail}`)
     if(response.status===200){
       return response.data
     }

@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import axios from "axios";
+import axios from "../services/axiosInstance";
 
 
 
 export const fetchFilesByCategory:any=createAsyncThunk('files/fileByCategory',async(category,{rejectWithValue})=>{
     //console.log(category)
     try{
-        const response=await axios.get(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?category=${category}`)
+        const response=await axios.get(`/filefunctions?category=${category}`)
         if(response.status===200){
             console.log(response.data)
             return response.data
@@ -20,7 +20,7 @@ export const deleteFile=createAsyncThunk('files/deleteFile',async(params:any,{re
     const {selectedFile,userMail}=params;
     console.log(selectedFile,userMail)
     try{
-        const response=await axios.delete(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?blobName=${selectedFile}&userMail=${userMail}`)
+        const response=await axios.delete(`/filefunctions?blobName=${selectedFile}&userMail=${userMail}`)
         if(response.status===200){
             return response.data
         }
