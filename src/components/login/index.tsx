@@ -60,7 +60,7 @@ export const Login = () => {
             if(response.status===200){
                 const tenantId = process.env.REACT_APP_TENANT_ID;
                 const clientId = process.env.REACT_APP_CLIENT_ID;
-                const redirectUrl=process.env.REACT_APP_REDIRECT_URL;
+                const redirectUrl:any=process.env.REACT_APP_REDIRECT_URL;
         
             
                 toast.success('Redirecting to Microsoft Login...', {
@@ -69,11 +69,11 @@ export const Login = () => {
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true,
-                    theme:"dark"
+                    theme:"dark"  
                 });
         
             
-                const authUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize?client_id=${clientId}&response_type=code&redirect_uri=https://file-manager-application.netlify.app/runway&response_mode=query&scope=openid profile email User.Read`;
+                const authUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUrl)}&response_mode=query&scope=openid profile email User.Read`;
                 window.location.href = authUrl;
         
                 setIsSubmitting(false);
