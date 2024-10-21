@@ -53,6 +53,8 @@ export const Files=()=>{
 
     const {category}=useParams()
 
+    console.log(files)
+
     const openModal = (fileName:any) => {
         setSelectedFile(fileName)
         setIsOpen(true);
@@ -66,11 +68,11 @@ export const Files=()=>{
 
     useEffect(()=>{
         dispatch(setActiveCategory(category))
-        console.log('activeCategory',category)
+        //console.log('activeCategory',category)
         dispatch<any>(fetchFilesByCategory(category))
         console.log(typeof files)
     },[dispatch])
-
+ 
     const handleDeleteFile=async ()=>{
         const userDetails:any=localStorage.getItem('userDetails')
         const {email}=JSON.parse(userDetails)
@@ -79,19 +81,6 @@ export const Files=()=>{
         await dispatch<any>(deleteFile({selectedFile,userMail:email}))
         
         dispatch<any>(fetchFilesByCategory(category))
-        // try{
-        //     const response=await axios.delete(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?blobName=${selectedFile}&userMail=${email}`)
-        //     //console.log(response.data)
-        //     if(response.status===200){
-        //         closeModal()
-        //         
-        //         dispatch<any>(fetchFilesByCategory(category))
-                
-        //     }
-        // }catch(err:any){
-        //     console.log(err.response.data)
-        // }    
-        
     }
 
     if (status==="loading") return <Loading/>

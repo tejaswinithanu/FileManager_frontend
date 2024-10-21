@@ -1,6 +1,6 @@
-import { useDispatch } from 'react-redux'
+
 import './index.css'
-import { setActiveCategory } from '../../store/fileCategoryStore'
+
 import { useNavigate } from 'react-router-dom'
 
 export const FolderItem=({category}:any)=>{

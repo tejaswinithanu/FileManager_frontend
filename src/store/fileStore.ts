@@ -46,19 +46,15 @@ const fileSlice=createSlice({
         updateFilterValue:(state:any,action)=>{
             state.filterValue=action.payload
         },
-        filterFiles:(state:any,action)=>{
-            const filteredFiles=state.files.filter((eachFile:any)=>{
-                const lowercaseName=eachFile.name.tolowercase();
-                return lowercaseName.includes(action.payload)
-            })
-            state.files=filteredFiles
-        },
         setStatus:(state:any,action)=>{
             state.status=action.payload
         },
         setSortValue:(state:any,action)=>{
             console.log(action.payload)
             state.sortBy=action.payload
+        },
+        setFileDeleteStatus:(state:any,action)=>{
+            state.deleteStatus=action.payload
         }
     },
     extraReducers:(builder)=>{

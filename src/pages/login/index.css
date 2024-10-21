@@ -25,7 +25,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
+ 
 }
  
 .login-img{
@@ -43,10 +43,11 @@
   flex-direction: column;
  
 }
-
+ 
  .desc{
   text-align: center;
   font-size: 18px;
   font-weight: 500;
  }
+ 
  
