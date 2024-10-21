@@ -10,6 +10,9 @@
     text-decoration: none;
     color: #edf2fa;
 }
+.link-item:hover{
+    color: #cbd8df;
+}
 .drop-item{
     color: #003f5c;
     text-decoration: none;

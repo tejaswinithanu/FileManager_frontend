@@ -1,6 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import { useDispatch, useSelector } from "react-redux"
 import { addFile, fetchFilesByCategory, setStatus } from "../../store/fileStore"
+import './index.css'
 
 
 export const Upload=()=>{
@@ -46,7 +47,7 @@ export const Upload=()=>{
     return(
         <div>
             <input onChange={handleFileChange} id="file" type="file" className="file-input"/>
-            <label htmlFor="file" className="btn btn-primary px-4">Upload</label>
+            <label htmlFor="file" className="empty-upload-btn px-4">Upload</label>
         </div>
     )
 }

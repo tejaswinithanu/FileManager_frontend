@@ -95,7 +95,7 @@ export const AddUser: React.FC = () => {
   };
 
   return (
-    <div className="d-flex flex-row justify-content-end add-user-bar shadow">
+    <div className="d-flex flex-row justify-content-end add-user-bar">
       <button onClick={openModal} className="invite-btn">
         Invite Member
       </button>
@@ -106,15 +106,15 @@ export const AddUser: React.FC = () => {
         className="modal-content"
         overlayClassName="modal-overlay"
       >
-        <form onSubmit={handleSubmit} className="d-flex flex-column">
+        <form onSubmit={handleSubmit} className="d-flex flex-column modal-box">
           <div className="d-flex flex-column mb-3">
             <label className="form-label" htmlFor="email">
               User email
             </label>
             <input
-              type="email"
+              type="text"
               id="email"
-              className="form-control"
+              className="form-control input-box"
               placeholder="Enter User email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -122,14 +122,14 @@ export const AddUser: React.FC = () => {
           </div>
 
           <div className="mb-3">
-            <label className="me-2 form-label" htmlFor="access-level">
+            <label className="me-2 form-label " htmlFor="access-level">
               Access level
             </label>
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
               style={{ cursor: 'pointer' }}
-              className="form-control"
+              className="form-control input-box"
               id="access-level"
             >
               <option value="user">user</option>
@@ -138,17 +138,17 @@ export const AddUser: React.FC = () => {
           </div>
 
           {role === 'user' && (
-            <div className="mb-3 d-flex">
+            <div className="mb-3 d-flex ">
               <CategoriesDropdown />
             </div>
           )}
 
-          <button type="submit" className="btn btn-primary mb-3">
+          <button type="submit" className="invite-btn mb-3">
             Invite {role}
           </button>
         </form>
 
-        <button onClick={closeModal} className="btn btn-danger">
+        <button onClick={closeModal} className="close-button">
           Close
         </button>
       </Modal>

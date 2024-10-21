@@ -46,7 +46,7 @@ export const Header=()=>{
                 </li>
 
                 <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#." role="button" aria-expanded="false">
+                <a className="nav-link dropdown-toggle link-item" data-bs-toggle="dropdown" href="#." role="button" aria-expanded="false">
                     {username}
                 </a>
 
