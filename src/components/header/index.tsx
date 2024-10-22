@@ -4,6 +4,7 @@ import './index.css'
 import { Link} from "react-router-dom";
 import Modal from 'react-modal'
 import { useState } from "react";
+import { Sidebar } from "../sidebar";
 
 Modal.setAppElement('#root')
 
@@ -11,15 +12,19 @@ Modal.setAppElement('#root')
 export const Header=()=>{
 
     const [isOpen,setIsOpen]=useState(false); 
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const openModal=()=>setIsOpen(true);
     const closeModal=()=>setIsOpen(false);
 
-    const userDetails:any=localStorage.getItem('userDetails')
+    const openSidebar = () => setSidebarOpen(true); // Function to open sidebar
+    const closeSidebar = () => setSidebarOpen(false); // Function to close sidebar
+
+    const userDetails:any=sessionStorage.getItem('userDetails')
     const {username,role}=JSON.parse(userDetails)
 
     const handleLogout=()=>{
-        localStorage.clear(); 
+        sessionStorage.clear(); 
         const azureLogoutUrl = `https://login.microsoftonline.com/${
             process.env.REACT_APP_TENANT_ID
           }/oauth2/v2.0/logout?post_logout_redirect_uri=${encodeURIComponent(
@@ -30,11 +35,12 @@ export const Header=()=>{
 
     return(
         
-
+    <>
         <nav id="navbar-example2" className="navbar navbar-dark px-5 header">
-            <Link className="navbar-brand app-name" to="/">
-            <FaFolderOpen className="me-2"/>
-            File Manager</Link>
+            <Link className="navbar-brand app-name-container" to="/">
+            <FaFolderOpen className="me-2 mb-0 pb-0"/>
+            <p className="app-name">File Manager</p>
+            </Link>
 
             <ul className="nav nav-pills">
                 <li className="nav-item">
@@ -47,10 +53,12 @@ export const Header=()=>{
 
                 <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle link-item" data-bs-toggle="dropdown" href="#." role="button" aria-expanded="false">
-                    {username}
+                    <p className="user-name">{username}</p>
+                    <img alt="profile" className="user-logo ms-2 me-1" src="https://res.cloudinary.com/dywrzseia/image/upload/v1729363391/success_15374780_ydhodm.gif"/>
                 </a>
 
                 <ul className="dropdown-menu">
+                    <li onClick={openSidebar} className="dropdown-item cursor-pointer">Profile</li>
                     <li><Link className="dropdown-item ps-3" to="/folders">Folders</Link></li>
                     <li><hr className="dropdown-divider"/></li>
                     
@@ -79,12 +87,10 @@ export const Header=()=>{
                     </li>
                 </ul>
                 </li>
-                <li>
-                    <img className="user-logo" src="https://res.cloudinary.com/dywrzseia/image/upload/v1729363391/success_15374780_ydhodm.gif"/>
-                </li>
             </ul>
             </nav>
-    
+            <Sidebar isOpen={sidebarOpen} closeSidebar={closeSidebar} />
+    </>
 
     )
 }

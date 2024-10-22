@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 
 const isAuthenticated = () => {
-    return localStorage.getItem('token') !== null;
+    return sessionStorage.getItem('token') !== null;
 };
 
 export const ProtectedRoute = ({ children }:any) => {

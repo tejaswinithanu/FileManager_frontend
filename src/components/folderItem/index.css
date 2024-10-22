@@ -8,13 +8,14 @@
     height: 300px; 
     padding: 10px; 
     border-radius: 8px; 
-    /* background-image: linear-gradient(to bottom,rgba(125, 231, 250, 0.623),rgb(228, 187, 6));  */
     background-color: #e5c185;
     box-shadow: 2px 4px 13px rgba(0, 0, 0, 0.2); 
     transition: transform 0.3s, box-shadow 0.3s; 
     cursor: pointer; 
-    margin: 20px;
+    margin: 10px;
 }
+
+
 
 .folder-img {
     width: 80%; 
@@ -22,6 +23,8 @@
     transition: transform 0.3s; 
     position: relative;
 }
+
+
 
 /* Add a slight animation on image hover */
 .folder-item:hover .folder-img {
@@ -59,4 +62,17 @@
 .category-name{
     color: #00202e;
     font-size: 18px;
+}
+
+@media (max-width:768px){
+    .folder-item{
+        width:100px;
+        height: 100px;
+    }
+    .folder-img{
+        width: 50%;
+    }
+    .category-name{
+        font-size: 10px;
+    }
 }

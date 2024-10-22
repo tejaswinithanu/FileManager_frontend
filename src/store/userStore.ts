@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { FileCategories } from "../services/fileCategories.service";
-import axios from "../services/axiosInstance";
+
+import axios from '../services/axiosInstance'
 const fileCategories=new FileCategories()
 
 export const inviteUser:any=createAsyncThunk('users/inviteUser', async (userDetails) => {
@@ -25,11 +26,16 @@ export const deleteUser:any=createAsyncThunk('users/deleteUser',async (userMail,
 })
 
 export const fetchUsers=createAsyncThunk('users/fetchUsers',async (_,{rejectWithValue})=>{
-    try{
-      const response=await axios.get('https://testsamplefnexp.azurewebsites.net/api/userfunctions');
+    
+  try{
+      const response = await axios.get('/userfunctions')
       
       if(response.status===200){
-        return response.data
+        const users=response.data
+        const userDetails:any=sessionStorage.getItem('userDetails');
+        const {email}=JSON.parse(userDetails)
+        const filteredUsers=users.filter((user:any)=>user.email !== email)
+        return filteredUsers
       }
       
     }catch(err:any){
@@ -63,10 +69,14 @@ const userStore=createSlice({
             state.status='loading';
           })
           .addCase(fetchUsers.fulfilled,(state:any,action:any)=>{
+              
               state.status='succeeded'
+
               state.users=action.payload
+              
           })
           .addCase(fetchUsers.rejected,(state:any,action)=>{
+            
             state.status='failed'
             state.error=action.payload
           })

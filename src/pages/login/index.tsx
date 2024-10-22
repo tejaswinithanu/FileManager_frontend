@@ -5,7 +5,7 @@ import './index.css'
  
 const LoginPage = () => {
  
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
  
     if (token) {
         return <Navigate to="/" />

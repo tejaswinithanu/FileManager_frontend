@@ -4,11 +4,9 @@ import axios from "../services/axiosInstance";
 
 
 export const fetchFilesByCategory:any=createAsyncThunk('files/fileByCategory',async(category,{rejectWithValue})=>{
-    //console.log(category)
     try{
         const response=await axios.get(`/filefunctions?category=${category}`)
         if(response.status===200){
-            console.log(response.data)
             return response.data
         }
     }catch(err:any){
@@ -17,16 +15,40 @@ export const fetchFilesByCategory:any=createAsyncThunk('files/fileByCategory',as
 })
 
 export const deleteFile=createAsyncThunk('files/deleteFile',async(params:any,{rejectWithValue})=>{
-    const {selectedFile,userMail}=params;
-    console.log(selectedFile,userMail)
+    const {selectedFile,category}=params;
+    console.log(selectedFile)
     try{
-        const response=await axios.delete(`/filefunctions?blobName=${selectedFile}&userMail=${userMail}`)
+        const response=await axios.delete(`/filefunctions?blobName=${selectedFile}&category=${category}`)
         if(response.status===200){
             return response.data
         }
     }catch(err:any){
         return rejectWithValue(err.response?.data || 'Something went wrong')
     }
+})
+
+export const uploadFile=createAsyncThunk('files/uploadFile',async (params:any,{rejectWithValue})=>{
+    const {category,formData}=params 
+    const token=sessionStorage.getItem('token') 
+    try{
+            const response=await fetch(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?category=${category}`,
+                {
+                    method:'POST',
+                    body:formData,
+                    headers:{
+                        'Authorization':`Bearer ${token}`
+                    }
+                }
+            )
+
+            if(response.ok){
+
+                const result =await response.text();
+                return result
+            }
+        }catch(err:any){
+            return rejectWithValue(err.message || 'Could not upload the file')
+        }
 })
 
 const fileSlice=createSlice({
@@ -37,6 +59,7 @@ const fileSlice=createSlice({
         status:"idle",   //  loading/succeeded/failed 
         error:"",
         deleteStatus:"idle",
+        uploadStatus:"idle",
         sortBy:"default"
     },
     reducers:{
@@ -59,18 +82,6 @@ const fileSlice=createSlice({
     },
     extraReducers:(builder)=>{
         builder
-        // .addCase(fetchFiles.pending,(state:any)=>{
-        //     state.loading=true;
-        //   })
-        // .addCase(fetchFiles.fulfilled,(state:any,action)=>{
-        //     //console.log(action.payload)
-        //     state.loading=false;
-        //     state.files=action.payload
-        // })
-        // .addCase(fetchFiles.rejected,(state:any,action)=>{
-        //     state.loading=false;
-        //     state.error=action.payload
-        // })
         .addCase(fetchFilesByCategory.pending,(state:any)=>{
             state.status='loading'
         })
@@ -86,17 +97,27 @@ const fileSlice=createSlice({
             state.deleteStatus='loading'
         })
         .addCase(deleteFile.fulfilled,(state:any,action)=>{
-            state.status='loading'
-            state.deleteStatus='succeeded'
+            // state.status='succeeded'
+            state.deleteStatus='succeeded' 
         })
         .addCase(deleteFile.rejected,(state:any,action)=>{
-            state.status='succeeded'
+            // state.status='failed'
             state.deleteStatus='failed'
+            state.error=action.payload || action.error.message
+        })
+        .addCase(uploadFile.pending,(state:any)=>{
+            state.uploadStatus='loading'
+        })
+        .addCase(uploadFile.fulfilled,(state:any,action)=>{
+            state.uploadStatus='succeeded' 
+        })
+        .addCase(uploadFile.rejected,(state:any,action)=>{
+            state.uploadStatus='failed'
             state.error=action.payload || action.error.message
         })
     }
 })
 
-export const {addFile,updateFilterValue,setStatus,setSortValue}=fileSlice.actions
+export const {addFile,updateFilterValue,setStatus,setSortValue,setFileDeleteStatus}=fileSlice.actions
 
 export default fileSlice.reducer

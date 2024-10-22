@@ -3,24 +3,19 @@ import { useEffect } from 'react';
 
 import './index.css'
 import { Loading } from '../../components/loading';
-import { useDispatch} from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 const LoadingRunway=()=>{
-
-    const navigate=useNavigate();
 
     useEffect(()=>{
         const getUser=async()=>{
            try {const params=new URLSearchParams(window.location.search);
             const code=params.get('code')
             console.log(code)
-            const res=await axios.post(`https://testsamplefnexp.azurewebsites.net/api/AuthFunctions?code=${code}`)
+            const res=await axios.post(`https://testsamplefnexp.azurewebsites.net/api/authfunctions?code=${code}`)
            
             const data=res.data
         
-            //console.log(res.data)
-            localStorage.setItem("token",data.token)
+            sessionStorage.setItem("token",data.token)
 
             const userDetails={
                 email:data.userDetails.mail,
@@ -29,12 +24,10 @@ const LoadingRunway=()=>{
                 assignedCategories:data.userDetails.categories
             }
 
-            localStorage.setItem('userDetails',JSON.stringify(userDetails))
-
-            //dispatch(addUserDetails(userDetails))
+            sessionStorage.setItem('userDetails',JSON.stringify(userDetails))
             
-            //window.location.href='/'
-            navigate('/')
+            window.location.href='/'
+            
             
         
             }

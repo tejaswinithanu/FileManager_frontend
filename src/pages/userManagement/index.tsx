@@ -1,5 +1,5 @@
-import { AddUser } from "../inviteMember"
-import { Users } from "../users"
+import { AddUser } from "../../components/inviteMember"
+import { Users } from "../../components/users"
 import './index.css'
 
 export const UserManagement=()=>{

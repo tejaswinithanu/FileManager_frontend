@@ -6,7 +6,7 @@ import { useSelector } from "react-redux"
 import './index.css'
 
 export const Folders=()=>{
-    const userDetails:any=localStorage.getItem('userDetails');
+    const userDetails:any=sessionStorage.getItem('userDetails');
     //console.log(userDetails)
     const folders=useSelector((state:any)=>state.fileCategoryStore.fileCategories)
     const {assignedCategories}=JSON.parse(userDetails)  

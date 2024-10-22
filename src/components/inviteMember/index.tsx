@@ -91,8 +91,11 @@ export const AddUser: React.FC = () => {
   };
 
   return (
-    <div className="d-flex flex-row justify-content-end add-user-bar">
-      <button onClick={openModal} className="invite-btn">
+    <div className="d-flex flex-row justify-content-end add-user-bar shadow-sm">
+      <button className='custom-btn me-4'>
+        Add Category
+      </button>
+      <button onClick={openModal} className="custom-btn">
         Invite Member
       </button>
       <Modal
@@ -139,7 +142,7 @@ export const AddUser: React.FC = () => {
             </div>
           )}
 
-          <button type="submit" className="invite-btn mb-3">
+          <button type="submit" className="custom-btn mb-3">
             Invite {role}
           </button>
         </form>

@@ -1,0 +1,19 @@
+.error-view-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height:91.7vh;
+    background-color: #e9effa;
+}
+
+.error-img{
+    width: 300px;
+    margin-bottom: 0px;
+}
+
+.error-msg{
+    font-size: 35px;
+    font-weight: 200;
+    margin-top: 0px;
+}

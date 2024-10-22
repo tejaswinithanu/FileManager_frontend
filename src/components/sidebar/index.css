@@ -1,0 +1,63 @@
+/* Sidebar.css */
+.sidebar {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0; /* Positioning it on the right */
+    width: 250px;
+    max-width: 250px; /* Width of the sidebar */
+    height: 100%; /* Full height */
+    background-color: #183e4b; /* Background color */
+    color: white; /* Text color */
+    transform: translateX(100%); /* Start off-screen to the right */
+    transition: transform 0.3s ease; /* Animation for sliding in */
+    z-index: 1000; /* Ensure it's on top of other elements */
+}
+ 
+.sidebar.open {
+    transform: translateX(0); /* Slide in */
+}
+
+.sidebar ul {
+    list-style-type: none; /* Remove bullets */
+    padding: 0;
+    
+}
+
+.sidebar li {
+    padding: 15px;
+    padding-left: 0; /* Padding for each item */
+    border-bottom: 1px solid #444; /* Divider between items */
+}
+
+.sidebar a {
+    color: white; /* Link color */
+    text-decoration: none; /* Remove underline */
+}
+
+.sidebar a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+.close-btn {
+    background: none; 
+    border: none; 
+    color: white; /* Button color */
+    font-size: 24px; /* Font size */
+    margin: 15px; /* Margin around the button */
+    cursor: pointer; /* Pointer cursor */
+}
+
+.profile-img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.email-text{
+    word-wrap: break-word; 
+    white-space: normal;
+}

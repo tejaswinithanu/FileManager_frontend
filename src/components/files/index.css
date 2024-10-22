@@ -17,18 +17,17 @@
   border: none;
   outline: none;
   text-align: center;
-  background-color: transparent;
   cursor: pointer;
   margin-top: 15px;
   margin-right: 10px;
   font-weight: bold;
   flex-wrap: wrap;
+  word-wrap: break-word;
 }
 
 
 .file-list-item{
   list-style-type: none;
-  word-wrap: break-word;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -46,9 +45,10 @@
   padding: 10px;
 } */
 
-.name-container{
+.action-container{
  
   display: flex;
+  flex-direction: column;
   align-items: center;
   text-align: center;
 }
@@ -65,7 +65,7 @@
   cursor: pointer; /* Change cursor to pointer */
 }
 
-.deleteee{
+.text-container{
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -79,4 +79,25 @@
   background-color: #e9effa;
   min-height: 91.7vh;
   width: 100vw;
+}
+
+.popup-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.created-time{
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.created-time-text{
+  font-size: 12px;
+  font-weight: 600;
 }

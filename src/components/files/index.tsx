@@ -7,10 +7,11 @@ import  {FileIcon,defaultStyles}  from 'react-file-icon';
 
 import './index.css'
 import { useEffect, useState } from "react";
-import { deleteFile, fetchFilesByCategory, setStatus } from "../../store/fileStore";
+import { deleteFile, fetchFilesByCategory, setFileDeleteStatus, setStatus } from "../../store/fileStore";
 import { Loading } from "../loading";
 import { useParams } from "react-router-dom";
 import { setActiveCategory } from "../../store/fileCategoryStore";
+import { ErrorView } from "../errorView";
 
 Modal.setAppElement('#root')
 
@@ -26,6 +27,8 @@ export const Files=()=>{
 
     const [isOpen,setIsOpen]=useState(false); 
     const [selectedFile,setSelectedFile]=useState("");
+    const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
+
     const {files, status, error, deleteStatus, sortBy}=useSelector((state:any)=>state.fileStore)
     const [filesList,updateFilesList]=useState(files)
 
@@ -53,8 +56,6 @@ export const Files=()=>{
 
     const {category}=useParams()
 
-    console.log(files)
-
     const openModal = (fileName:any) => {
         setSelectedFile(fileName)
         setIsOpen(true);
@@ -68,52 +69,61 @@ export const Files=()=>{
 
     useEffect(()=>{
         dispatch(setActiveCategory(category))
-        //console.log('activeCategory',category)
         dispatch<any>(fetchFilesByCategory(category))
-        console.log(typeof files)
     },[dispatch])
  
     const handleDeleteFile=async ()=>{
-        const userDetails:any=localStorage.getItem('userDetails')
+        //dispatch(setFileDeleteStatus('loading'))
+        const userDetails:any=sessionStorage.getItem('userDetails')
         const {email}=JSON.parse(userDetails)
         closeModal()
         dispatch(setStatus('loading'))
-        await dispatch<any>(deleteFile({selectedFile,userMail:email}))
+        await dispatch<any>(deleteFile({selectedFile,category}))
         
         dispatch<any>(fetchFilesByCategory(category))
     }
 
+    // useEffect(() => {
+    //     if (deleteStatus === "succeeded") {
+    //       setShowDeleteSuccess(true);
+    
+    //       // Hide the popup after 3 seconds
+    //       const timer = setTimeout(() => {
+    //         setShowDeleteSuccess(false);
+    //       }, 3000);
+    
+    //       // Cleanup timer on unmount
+    //       return () => clearTimeout(timer);
+    //     }
+    //   }, [deleteStatus]);
+
     if (status==="loading") return <Loading/>
 
-    if (status === 'failed') return <div>Error: {error}</div>;
+    if (status === 'failed') return <ErrorView errorMsg={error}/>
 
-    if (status === 'succeeded' && files.length === 0) return <EmptyView/>
+    if (status === 'succeeded' && files.length === 0) return <EmptyView reload={true} errorText="Oops😕, No files are added yet!"/>
 
     return(
-        <div>
+        <div className="files-container">
+            <FileSearcherBar/>
             {
+                filesList.length!==0 ?             
 
-   
-
-                files.length!==0 &&
-              
-
-                (
-                    <div className="files-container">
-                    <FileSearcherBar/>
-
-                    
+                (         
                     <ul className="row m-4">
 
                     {filesList.map((eachFile:any)=>{
                         const extension=eachFile.name.split(".").pop();
                         const iconStyle = defaultStyles[extension as keyof typeof defaultStyles];
+                        const {createdAt}=eachFile
+
+                        const createdTime = `${new Date(createdAt).toLocaleDateString()} ${new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
                         
                         return(
                         <li key={eachFile._id} className="col-sm-6 col-md-4 col-xl-2 file-list-item mb-3">
                             <a 
                             className="file-item"
-                            href={eachFile.url}
+                            href={eachFile.path}
                             rel="noopener noreferrer"
                             target="_blank"
                             >
@@ -122,11 +132,14 @@ export const Files=()=>{
                                 </div>
                                                         
                             </a>
-                            <div className="name-container">
-                                <div className="deleteee">
-                                    <p onClick={()=>{window.open(eachFile.url,'_blank')}} className="file-name pe-0 me-0">{eachFile.name}</p>                                
-                                    <MdDelete className="delete-icon" onClick={()=>openModal(eachFile.name)}/>
-                                </div>
+                            <div className="action-container">
+                                
+                                <p onClick={()=>{window.open(eachFile.path,'_blank')}} className="file-name pe-0 me-0">{eachFile.name}</p>       
+                                  
+                                <p className="created-time-text">Created At: <span className="created-time">{createdTime}</span></p>                      
+                                
+                                <MdDelete size={18} className="delete-icon" onClick={()=>openModal(eachFile.name)}/>
+                               
                                 <Modal isOpen={isOpen} onRequestClose={closeModal} contentLabel="Example Modal" className="modal-content d-flex flex-column align-center" overlayClassName="modal-overlay">
                                     <h6 className="mb-4">Are you sure?</h6>
                                     <div className="d-flex justify-content-center">
@@ -142,11 +155,23 @@ export const Files=()=>{
                             </li>
                         )
                     })}
+                
                     </ul>
                     
-                    </div>
-                )
+                   
+                ):
+                <EmptyView reload={false} errorText="Oops😕, No files with that name!"/>
+                
             }
+
+            {/* Delete Success Popup */}
+            {/* {showDeleteSuccess && (
+                <div className="popup-container">
+                <div className="popup-content">
+                    <p>File Deleted Successfully!</p>
+                </div>
+                </div>
+            )} */}
            
 
         </div>

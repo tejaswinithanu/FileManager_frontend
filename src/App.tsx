@@ -5,7 +5,7 @@ import LoginPage from './pages/login';
 import LoadingRunway from './pages/runway';
 import Home from './pages/home';
 import { Folders } from './components/folders';
-import { UserManagement } from './components/userManagement';
+import { UserManagement } from './pages/userManagement';
 import { Files } from './components/files';
 import { ProtectedRoute } from './components/protectedRoute';
 

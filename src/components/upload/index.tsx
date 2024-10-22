@@ -1,7 +1,8 @@
 import {v4 as uuidv4} from 'uuid';
 import { useDispatch, useSelector } from "react-redux"
-import { addFile, fetchFilesByCategory, setStatus } from "../../store/fileStore"
+import { addFile, fetchFilesByCategory, setStatus, uploadFile } from "../../store/fileStore"
 import './index.css'
+import { Category } from '../category';
 
 
 export const Upload=()=>{
@@ -15,30 +16,30 @@ export const Upload=()=>{
         dispatch(setStatus('loading'))
         const formData:any = new FormData();
         formData.append('file', file);
-        
-        const userDetails:any=localStorage.getItem('userDetails')
-        const {email}=JSON.parse(userDetails)
-        try{
-            const response=await fetch(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?userMail=${email}&category=${activeCategory}`,
-                {
-                    method:'POST',
-                    body:formData
-                }
-            )
+        dispatch(setStatus('loading'));
+        await dispatch<any>(uploadFile({category:activeCategory,formData}))
+        dispatch(fetchFilesByCategory(activeCategory))
+        // try{
+        //     const response=await fetch(`https://testsamplefnexp.azurewebsites.net/api/filefunctions?category=${activeCategory}`,
+        //         {
+        //             method:'POST',
+        //             body:formData
+        //         }
+        //     )
 
-            if(response.ok){
+        //     if(response.ok){
 
-                const result =await response.text();
-                console.log(result);
-                dispatch(addFile({id:uuidv4(),name:file.name,size:file.size,type:file.type, url:result}))
-                dispatch(fetchFilesByCategory(activeCategory))
-            }else{
-                console.log('Error in response')
-            }
+        //         const result =await response.text();
+        //         console.log(result);
+        //         dispatch(addFile({id:uuidv4(),name:file.name,size:file.size,type:file.type, url:result}))
+        //         dispatch(fetchFilesByCategory(activeCategory))
+        //     }else{
+        //         console.log('Error in response')
+        //     }
  
-        }catch(error:any){
-            console.error("Error uploading file:", error.message);
-        }
+        // }catch(error:any){
+        //     console.error("Error uploading file:", error.message);
+        // }
 
     }
 

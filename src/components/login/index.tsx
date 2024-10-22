@@ -55,9 +55,9 @@ export const Login = () => {
             return;
         }
 
-        try{
-            const response=await axios.get(`https://testsamplefnexp.azurewebsites.net/api/userfunctions?userMail=${email}`)
-            if(response.status===200){
+        // try{
+        //     const response=await axios.get(`https://testsamplefnexp.azurewebsites.net/api/userfunctions?userMail=${email}`)
+        //     if(response.status===200){
                 const tenantId = process.env.REACT_APP_TENANT_ID;
                 const clientId = process.env.REACT_APP_CLIENT_ID;
                 const redirectUrl:any=process.env.REACT_APP_REDIRECT_URL;
@@ -73,14 +73,18 @@ export const Login = () => {
                 });
         
             
-                const authUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUrl)}&response_mode=query&scope=openid profile email User.Read`;
+                const authUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize?client_id=${clientId}&response_type=code&redirect_uri=http://localhost:3000/runway&response_mode=query&scope=openid profile email User.Read`;
                 window.location.href = authUrl;
         
                 setIsSubmitting(false);
-                    }
-        }catch(err:any){
-            console.log(err.response?.data)
-        }
+        //     }
+        // }catch(err:any){
+        //     toast.error(err.response?.data || 'Error while login', {
+        //         position: "top-right",
+        //         autoClose: 3000,
+        //         theme:"dark"
+        //     });
+        // }
  
         
     };

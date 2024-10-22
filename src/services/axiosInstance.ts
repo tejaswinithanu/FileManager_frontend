@@ -1,26 +1,25 @@
-import axios from 'axios';
+import axios from 'axios'
 
-// Create an Axios instance
 const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_API_BASE_URL // Base URL for API
-});
+  baseURL: 'https://testsamplefnexp.azurewebsites.net/api',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  }
+})
 
-// Add a request interceptor to add the token to headers
+// Add request interceptor
 axiosInstance.interceptors.request.use(
-    (config) => {
-        // Get the token from localStorage or wherever you store it
-        const token = localStorage.getItem('authToken');
-        
-        if (token) {
-            // If token exists, set it in the Authorization header
-            config.headers['Authorization'] = `Bearer ${token}`;
-        }
-        return config;
-    },
-    (error) => {
-        // Handle error
-        return Promise.reject(error);
+  (config) => {
+    const token = sessionStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
     }
-);
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  }
+)
 
-export default axiosInstance;
+export default axiosInstance
